@@ -13,7 +13,6 @@ use WechatWorkBundle\Repository\AgentRepository;
 use WechatWorkBundle\Service\WorkService;
 use WechatWorkSecurityBundle\Entity\ScreenOperateRecord;
 use WechatWorkSecurityBundle\Enum\ScreenShotTypeEnum;
-use WechatWorkSecurityBundle\Repository\ScreenOperateRecordRepository;
 use WechatWorkSecurityBundle\Request\ScreenOperateRecordRequest;
 
 /**
@@ -26,7 +25,6 @@ class ScreenOperateRecordCommand extends Command
     public function __construct(
         private readonly AgentRepository $agentRepository,
         private readonly WorkService $workService,
-        private readonly ScreenOperateRecordRepository $screenOperateRecordRepository,
         private readonly EntityManagerInterface $entityManager,
     ) {
         parent::__construct();

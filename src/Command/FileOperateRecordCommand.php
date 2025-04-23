@@ -13,7 +13,6 @@ use WechatWorkBundle\Repository\AgentRepository;
 use WechatWorkBundle\Service\WorkService;
 use WechatWorkSecurityBundle\Entity\FileOperateRecord;
 use WechatWorkSecurityBundle\Enum\FileOperateDeviceCodeEnum;
-use WechatWorkSecurityBundle\Repository\FileOperateRecordRepository;
 use WechatWorkSecurityBundle\Request\FileOperateRecordRequest;
 
 /**
@@ -26,7 +25,6 @@ class FileOperateRecordCommand extends Command
     public function __construct(
         private readonly AgentRepository $agentRepository,
         private readonly WorkService $workService,
-        private readonly FileOperateRecordRepository $fileOperateRecordRepository,
         private readonly EntityManagerInterface $entityManager,
     ) {
         parent::__construct();

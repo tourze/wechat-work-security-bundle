@@ -12,7 +12,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 use WechatWorkBundle\Repository\AgentRepository;
 use WechatWorkBundle\Service\WorkService;
 use WechatWorkSecurityBundle\Entity\MemberOperateRecord;
-use WechatWorkSecurityBundle\Repository\MemberOperateRecordRepository;
 use WechatWorkSecurityBundle\Request\MemberOperateRecordRequest;
 
 /**
@@ -25,7 +24,6 @@ class MemberOperateRecordCommand extends Command
     public function __construct(
         private readonly AgentRepository $agentRepository,
         private readonly WorkService $workService,
-        private readonly MemberOperateRecordRepository $memberOperateRecordRepository,
         private readonly EntityManagerInterface $entityManager,
     ) {
         parent::__construct();
