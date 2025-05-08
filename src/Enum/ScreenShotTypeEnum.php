@@ -30,6 +30,7 @@ enum ScreenShotTypeEnum: int implements Labelable, Itemable, Selectable
             self::CONTACTS => '通讯录',
             self::MAIL => '邮箱',
             self::FILES => '文件',
+            self::SCHEDULE => '日程',
             self::OTHERS => '其他',
         };
     }
