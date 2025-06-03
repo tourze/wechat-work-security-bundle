@@ -7,7 +7,18 @@ use WechatWorkSecurityBundle\Enum\TrustDeviceSourceEnum;
 
 class TrustDeviceSourceEnumTest extends TestCase
 {
-    public function testEnumValues_shouldBeCorrect(): void
+    public function test_enum_cases_exist(): void
+    {
+        $cases = TrustDeviceSourceEnum::cases();
+        
+        $this->assertCount(4, $cases);
+        $this->assertContains(TrustDeviceSourceEnum::UNKNOWN, $cases);
+        $this->assertContains(TrustDeviceSourceEnum::MEMBER_CONFIRMATION, $cases);
+        $this->assertContains(TrustDeviceSourceEnum::ADMIN_IMPORT, $cases);
+        $this->assertContains(TrustDeviceSourceEnum::MEMBER_SELF_DECLARATION, $cases);
+    }
+
+    public function test_enum_values_are_correct(): void
     {
         $this->assertSame(1, TrustDeviceSourceEnum::UNKNOWN->value);
         $this->assertSame(2, TrustDeviceSourceEnum::MEMBER_CONFIRMATION->value);
@@ -15,7 +26,7 @@ class TrustDeviceSourceEnumTest extends TestCase
         $this->assertSame(4, TrustDeviceSourceEnum::MEMBER_SELF_DECLARATION->value);
     }
 
-    public function testGetLabel_shouldReturnCorrectLabel(): void
+    public function test_getLabel_returns_correct_labels(): void
     {
         $this->assertSame('未知', TrustDeviceSourceEnum::UNKNOWN->getLabel());
         $this->assertSame('成员确认', TrustDeviceSourceEnum::MEMBER_CONFIRMATION->getLabel());
@@ -23,34 +34,74 @@ class TrustDeviceSourceEnumTest extends TestCase
         $this->assertSame('成员自主申报', TrustDeviceSourceEnum::MEMBER_SELF_DECLARATION->getLabel());
     }
 
-    public function testCases_shouldReturnAllCases(): void
+    public function test_tryFrom_with_valid_values(): void
     {
-        $cases = TrustDeviceSourceEnum::cases();
-
-        $this->assertCount(4, $cases);
-        $this->assertContainsOnlyInstancesOf(TrustDeviceSourceEnum::class, $cases);
-        $this->assertSame(TrustDeviceSourceEnum::UNKNOWN, $cases[0]);
-        $this->assertSame(TrustDeviceSourceEnum::MEMBER_CONFIRMATION, $cases[1]);
-        $this->assertSame(TrustDeviceSourceEnum::ADMIN_IMPORT, $cases[2]);
-        $this->assertSame(TrustDeviceSourceEnum::MEMBER_SELF_DECLARATION, $cases[3]);
+        $this->assertSame(TrustDeviceSourceEnum::UNKNOWN, TrustDeviceSourceEnum::tryFrom(1));
+        $this->assertSame(TrustDeviceSourceEnum::MEMBER_CONFIRMATION, TrustDeviceSourceEnum::tryFrom(2));
+        $this->assertSame(TrustDeviceSourceEnum::ADMIN_IMPORT, TrustDeviceSourceEnum::tryFrom(3));
+        $this->assertSame(TrustDeviceSourceEnum::MEMBER_SELF_DECLARATION, TrustDeviceSourceEnum::tryFrom(4));
     }
 
-    public function testGenOptions_shouldReturnCorrectOptions(): void
+    public function test_tryFrom_with_invalid_value_returns_null(): void
+    {
+        $this->assertNull(TrustDeviceSourceEnum::tryFrom(0));
+        $this->assertNull(TrustDeviceSourceEnum::tryFrom(5));
+        $this->assertNull(TrustDeviceSourceEnum::tryFrom(-1));
+    }
+
+    public function test_from_with_valid_values(): void
+    {
+        $this->assertSame(TrustDeviceSourceEnum::UNKNOWN, TrustDeviceSourceEnum::from(1));
+        $this->assertSame(TrustDeviceSourceEnum::MEMBER_SELF_DECLARATION, TrustDeviceSourceEnum::from(4));
+    }
+
+    public function test_from_with_invalid_value_throws_exception(): void
+    {
+        $this->expectException(\ValueError::class);
+        TrustDeviceSourceEnum::from(999);
+    }
+
+    public function test_implements_required_interfaces(): void
+    {
+        $enum = TrustDeviceSourceEnum::UNKNOWN;
+        
+        $this->assertInstanceOf(\Tourze\EnumExtra\Labelable::class, $enum);
+        $this->assertInstanceOf(\Tourze\EnumExtra\Itemable::class, $enum);
+        $this->assertInstanceOf(\Tourze\EnumExtra\Selectable::class, $enum);
+    }
+
+    public function test_trait_methods_are_available(): void
+    {
+        $this->assertTrue(method_exists(TrustDeviceSourceEnum::class, 'genOptions'));
+        $this->assertTrue(method_exists(TrustDeviceSourceEnum::class, 'toSelectItem'));
+        $this->assertTrue(method_exists(TrustDeviceSourceEnum::class, 'toArray'));
+    }
+
+    public function test_toSelectItem_returns_correct_structure(): void
+    {
+        $item = TrustDeviceSourceEnum::UNKNOWN->toSelectItem();
+        
+        $this->assertArrayHasKey('label', $item);
+        $this->assertArrayHasKey('text', $item);
+        $this->assertArrayHasKey('value', $item);
+        $this->assertArrayHasKey('name', $item);
+        
+        $this->assertSame('未知', $item['label']);
+        $this->assertSame('未知', $item['text']);
+        $this->assertSame(1, $item['value']);
+        $this->assertSame('未知', $item['name']);
+    }
+
+    public function test_genOptions_returns_array_of_options(): void
     {
         $options = TrustDeviceSourceEnum::genOptions();
-
-        $this->assertCount(4, $options);
+        
         $this->assertIsArray($options);
-
-        // 检查第一个选项
-        $this->assertArrayHasKey('value', $options[0]);
-        $this->assertArrayHasKey('text', $options[0]);
-        $this->assertSame(1, $options[0]['value']);
-        $this->assertSame('未知', $options[0]['text']);
-
-        // 检查最后一个选项
-        $lastIndex = count($options) - 1;
-        $this->assertSame(4, $options[$lastIndex]['value']);
-        $this->assertSame('成员自主申报', $options[$lastIndex]['text']);
+        $this->assertCount(4, $options);
+        
+        foreach ($options as $option) {
+            $this->assertArrayHasKey('label', $option);
+            $this->assertArrayHasKey('value', $option);
+        }
     }
-}
+} 

@@ -41,7 +41,7 @@ class ScreenOperateRecord
     private ?int $departmentId = null;
 
     #[ORM\Column(length: 20, nullable: false, enumType: ScreenShotTypeEnum::class, options: ['comment' => '截屏内容类型'])]
-    private ?ScreenShotTypeEnum $screenShotType;
+    private ?ScreenShotTypeEnum $screenShotType = ScreenShotTypeEnum::CHAT;
 
     #[ORM\Column(length: 60, nullable: true, options: ['comment' => '截屏内容'])]
     private ?string $screenShotContent = null;

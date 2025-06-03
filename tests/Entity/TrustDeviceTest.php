@@ -2,7 +2,6 @@
 
 namespace WechatWorkSecurityBundle\Tests\Entity;
 
-use DateTimeImmutable;
 use PHPUnit\Framework\TestCase;
 use WechatWorkSecurityBundle\Entity\TrustDevice;
 use WechatWorkSecurityBundle\Enum\TrustDeviceSourceEnum;
@@ -10,157 +9,383 @@ use WechatWorkSecurityBundle\Enum\TrustDeviceStatusEnum;
 
 class TrustDeviceTest extends TestCase
 {
-    private TrustDevice $trustDevice;
+    private TrustDevice $entity;
 
     protected function setUp(): void
     {
-        $this->trustDevice = new TrustDevice();
+        $this->entity = new TrustDevice();
     }
 
-    public function testDefaultValues_shouldBeCorrect(): void
+    public function test_getId_returns_zero_by_default(): void
     {
-        $this->assertSame(0, $this->trustDevice->getId());
-        $this->assertNull($this->trustDevice->getType());
-        $this->assertNull($this->trustDevice->getDeviceCode());
-        $this->assertNull($this->trustDevice->getSystem());
-        $this->assertNull($this->trustDevice->getMacAddr());
-        $this->assertNull($this->trustDevice->getMotherboardUuid());
-        $this->assertNull($this->trustDevice->getHarddiskUuid());
-        $this->assertNull($this->trustDevice->getDomain());
-        $this->assertNull($this->trustDevice->getPcName());
-        $this->assertNull($this->trustDevice->getSeqNo());
-        $this->assertNull($this->trustDevice->getLastLoginTime());
-        $this->assertNull($this->trustDevice->getLastLoginUserid());
-        $this->assertNull($this->trustDevice->getConfirmTimestamp());
-        $this->assertNull($this->trustDevice->getConfirmUserid());
-        $this->assertNull($this->trustDevice->getApprovedUserid());
-        $this->assertNull($this->trustDevice->getCreateTime());
-        $this->assertNull($this->trustDevice->getUpdateTime());
+        $this->assertSame(0, $this->entity->getId());
     }
 
-    public function testSetAndGetType_withValidValue_shouldReturnSameValue(): void
+    public function test_type_getter_and_setter(): void
     {
-        $type = 'testType';
-        $this->trustDevice->setType($type);
-        $this->assertSame($type, $this->trustDevice->getType());
+        $this->assertNull($this->entity->getType());
+
+        $type = '1';
+        $this->entity->setType($type);
+        
+        $this->assertSame($type, $this->entity->getType());
     }
 
-    public function testSetAndGetDeviceCode_withValidValue_shouldReturnSameValue(): void
+    public function test_type_setter_with_null(): void
     {
-        $deviceCode = 'testDeviceCode';
-        $this->trustDevice->setDeviceCode($deviceCode);
-        $this->assertSame($deviceCode, $this->trustDevice->getDeviceCode());
+        $this->entity->setType(null);
+        $this->assertNull($this->entity->getType());
     }
 
-    public function testSetAndGetSystem_withValidValue_shouldReturnSameValue(): void
+    public function test_deviceCode_getter_and_setter(): void
     {
-        $system = 'testSystem';
-        $this->trustDevice->setSystem($system);
-        $this->assertSame($system, $this->trustDevice->getSystem());
+        $this->assertNull($this->entity->getDeviceCode());
+
+        $deviceCode = 'device_001';
+        $this->entity->setDeviceCode($deviceCode);
+        
+        $this->assertSame($deviceCode, $this->entity->getDeviceCode());
     }
 
-    public function testSetAndGetMacAddr_withValidValue_shouldReturnSameValue(): void
+    public function test_deviceCode_setter_with_null(): void
     {
-        $macAddr = 'testMacAddr';
-        $this->trustDevice->setMacAddr($macAddr);
-        $this->assertSame($macAddr, $this->trustDevice->getMacAddr());
+        $this->entity->setDeviceCode(null);
+        $this->assertNull($this->entity->getDeviceCode());
     }
 
-    public function testSetAndGetMotherboardUuid_withValidValue_shouldReturnSameValue(): void
+    public function test_system_getter_and_setter(): void
     {
-        $motherboardUuid = 'testMotherboardUuid';
-        $this->trustDevice->setMotherboardUuid($motherboardUuid);
-        $this->assertSame($motherboardUuid, $this->trustDevice->getMotherboardUuid());
+        $this->assertNull($this->entity->getSystem());
+
+        $system = 'Windows 11';
+        $this->entity->setSystem($system);
+        
+        $this->assertSame($system, $this->entity->getSystem());
     }
 
-    public function testSetAndGetHarddiskUuid_withValidValue_shouldReturnSameValue(): void
+    public function test_system_setter_with_null(): void
     {
-        $harddiskUuid = 'testHarddiskUuid';
-        $this->trustDevice->setHarddiskUuid($harddiskUuid);
-        $this->assertSame($harddiskUuid, $this->trustDevice->getHarddiskUuid());
+        $this->entity->setSystem(null);
+        $this->assertNull($this->entity->getSystem());
     }
 
-    public function testSetAndGetDomain_withValidValue_shouldReturnSameValue(): void
+    public function test_macAddr_getter_and_setter(): void
     {
-        $domain = 'testDomain';
-        $this->trustDevice->setDomain($domain);
-        $this->assertSame($domain, $this->trustDevice->getDomain());
+        $this->assertNull($this->entity->getMacAddr());
+
+        $macAddr = '00:11:22:33:44:55';
+        $this->entity->setMacAddr($macAddr);
+        
+        $this->assertSame($macAddr, $this->entity->getMacAddr());
     }
 
-    public function testSetAndGetPcName_withValidValue_shouldReturnSameValue(): void
+    public function test_macAddr_setter_with_null(): void
     {
-        $pcName = 'testPcName';
-        $this->trustDevice->setPcName($pcName);
-        $this->assertSame($pcName, $this->trustDevice->getPcName());
+        $this->entity->setMacAddr(null);
+        $this->assertNull($this->entity->getMacAddr());
     }
 
-    public function testSetAndGetSeqNo_withValidValue_shouldReturnSameValue(): void
+    public function test_motherboardUuid_getter_and_setter(): void
     {
-        $seqNo = 'testSeqNo';
-        $this->trustDevice->setSeqNo($seqNo);
-        $this->assertSame($seqNo, $this->trustDevice->getSeqNo());
+        $this->assertNull($this->entity->getMotherboardUuid());
+
+        $uuid = '12345678-1234-1234-1234-123456789abc';
+        $this->entity->setMotherboardUuid($uuid);
+        
+        $this->assertSame($uuid, $this->entity->getMotherboardUuid());
     }
 
-    public function testSetAndGetLastLoginTime_withValidValue_shouldReturnSameValue(): void
+    public function test_motherboardUuid_setter_with_null(): void
     {
-        $lastLoginTime = '1622548800';
-        $this->trustDevice->setLastLoginTime($lastLoginTime);
-        $this->assertSame($lastLoginTime, $this->trustDevice->getLastLoginTime());
+        $this->entity->setMotherboardUuid(null);
+        $this->assertNull($this->entity->getMotherboardUuid());
     }
 
-    public function testSetAndGetLastLoginUserid_withValidValue_shouldReturnSameValue(): void
+    public function test_harddiskUuid_getter_and_setter(): void
     {
-        $lastLoginUserid = 'user123';
-        $this->trustDevice->setLastLoginUserid($lastLoginUserid);
-        $this->assertSame($lastLoginUserid, $this->trustDevice->getLastLoginUserid());
+        $this->assertNull($this->entity->getHarddiskUuid());
+
+        $uuid = '87654321-4321-4321-4321-cba987654321';
+        $this->entity->setHarddiskUuid($uuid);
+        
+        $this->assertSame($uuid, $this->entity->getHarddiskUuid());
     }
 
-    public function testSetAndGetConfirmTimestamp_withValidValue_shouldReturnSameValue(): void
+    public function test_harddiskUuid_setter_with_null(): void
     {
-        $confirmTimestamp = '1622548800';
-        $this->trustDevice->setConfirmTimestamp($confirmTimestamp);
-        $this->assertSame($confirmTimestamp, $this->trustDevice->getConfirmTimestamp());
+        $this->entity->setHarddiskUuid(null);
+        $this->assertNull($this->entity->getHarddiskUuid());
     }
 
-    public function testSetAndGetConfirmUserid_withValidValue_shouldReturnSameValue(): void
+    public function test_domain_getter_and_setter(): void
     {
-        $confirmUserid = 'user123';
-        $this->trustDevice->setConfirmUserid($confirmUserid);
-        $this->assertSame($confirmUserid, $this->trustDevice->getConfirmUserid());
+        $this->assertNull($this->entity->getDomain());
+
+        $domain = 'company.local';
+        $this->entity->setDomain($domain);
+        
+        $this->assertSame($domain, $this->entity->getDomain());
     }
 
-    public function testSetAndGetApprovedUserid_withValidValue_shouldReturnSameValue(): void
+    public function test_domain_setter_with_null(): void
     {
-        $approvedUserid = 'user123';
-        $this->trustDevice->setApprovedUserid($approvedUserid);
-        $this->assertSame($approvedUserid, $this->trustDevice->getApprovedUserid());
+        $this->entity->setDomain(null);
+        $this->assertNull($this->entity->getDomain());
     }
 
-    public function testSetAndGetSource_withValidEnum_shouldReturnSameEnum(): void
+    public function test_pcName_getter_and_setter(): void
     {
+        $this->assertNull($this->entity->getPcName());
+
+        $pcName = 'DESKTOP-ABCD123';
+        $this->entity->setPcName($pcName);
+        
+        $this->assertSame($pcName, $this->entity->getPcName());
+    }
+
+    public function test_pcName_setter_with_null(): void
+    {
+        $this->entity->setPcName(null);
+        $this->assertNull($this->entity->getPcName());
+    }
+
+    public function test_seqNo_getter_and_setter(): void
+    {
+        $this->assertNull($this->entity->getSeqNo());
+
+        $seqNo = 'C02XY1234567';
+        $this->entity->setSeqNo($seqNo);
+        
+        $this->assertSame($seqNo, $this->entity->getSeqNo());
+    }
+
+    public function test_seqNo_setter_with_null(): void
+    {
+        $this->entity->setSeqNo(null);
+        $this->assertNull($this->entity->getSeqNo());
+    }
+
+    public function test_lastLoginTime_getter_and_setter(): void
+    {
+        $this->assertNull($this->entity->getLastLoginTime());
+
+        $timestamp = '1640995200';
+        $this->entity->setLastLoginTime($timestamp);
+        
+        $this->assertSame($timestamp, $this->entity->getLastLoginTime());
+    }
+
+    public function test_lastLoginTime_setter_with_null(): void
+    {
+        $this->entity->setLastLoginTime(null);
+        $this->assertNull($this->entity->getLastLoginTime());
+    }
+
+    public function test_lastLoginUserid_getter_and_setter(): void
+    {
+        $this->assertNull($this->entity->getLastLoginUserid());
+
+        $userid = 'user123';
+        $this->entity->setLastLoginUserid($userid);
+        
+        $this->assertSame($userid, $this->entity->getLastLoginUserid());
+    }
+
+    public function test_lastLoginUserid_setter_with_null(): void
+    {
+        $this->entity->setLastLoginUserid(null);
+        $this->assertNull($this->entity->getLastLoginUserid());
+    }
+
+    public function test_confirmTimestamp_getter_and_setter(): void
+    {
+        $this->assertNull($this->entity->getConfirmTimestamp());
+
+        $timestamp = '1640995200';
+        $this->entity->setConfirmTimestamp($timestamp);
+        
+        $this->assertSame($timestamp, $this->entity->getConfirmTimestamp());
+    }
+
+    public function test_confirmTimestamp_setter_with_null(): void
+    {
+        $this->entity->setConfirmTimestamp(null);
+        $this->assertNull($this->entity->getConfirmTimestamp());
+    }
+
+    public function test_confirmUserid_getter_and_setter(): void
+    {
+        $this->assertNull($this->entity->getConfirmUserid());
+
+        $userid = 'admin123';
+        $this->entity->setConfirmUserid($userid);
+        
+        $this->assertSame($userid, $this->entity->getConfirmUserid());
+    }
+
+    public function test_confirmUserid_setter_with_null(): void
+    {
+        $this->entity->setConfirmUserid(null);
+        $this->assertNull($this->entity->getConfirmUserid());
+    }
+
+    public function test_approvedUserid_getter_and_setter(): void
+    {
+        $this->assertNull($this->entity->getApprovedUserid());
+
+        $userid = 'admin456';
+        $this->entity->setApprovedUserid($userid);
+        
+        $this->assertSame($userid, $this->entity->getApprovedUserid());
+    }
+
+    public function test_approvedUserid_setter_with_null(): void
+    {
+        $this->entity->setApprovedUserid(null);
+        $this->assertNull($this->entity->getApprovedUserid());
+    }
+
+    public function test_createTime_getter_and_setter(): void
+    {
+        $this->assertNull($this->entity->getCreateTime());
+
+        $createTime = new \DateTime('2024-01-01 10:00:00');
+        $this->entity->setCreateTime($createTime);
+        
+        $this->assertSame($createTime, $this->entity->getCreateTime());
+    }
+
+    public function test_createTime_setter_with_null(): void
+    {
+        $this->entity->setCreateTime(null);
+        $this->assertNull($this->entity->getCreateTime());
+    }
+
+    public function test_updateTime_getter_and_setter(): void
+    {
+        $this->assertNull($this->entity->getUpdateTime());
+
+        $updateTime = new \DateTime('2024-01-01 11:00:00');
+        $this->entity->setUpdateTime($updateTime);
+        
+        $this->assertSame($updateTime, $this->entity->getUpdateTime());
+    }
+
+    public function test_updateTime_setter_with_null(): void
+    {
+        $this->entity->setUpdateTime(null);
+        $this->assertNull($this->entity->getUpdateTime());
+    }
+
+    public function test_source_getter_and_setter(): void
+    {
+        $this->assertSame(TrustDeviceSourceEnum::UNKNOWN, $this->entity->getSource());
+
         $source = TrustDeviceSourceEnum::ADMIN_IMPORT;
-        $this->trustDevice->setSource($source);
-        $this->assertSame($source, $this->trustDevice->getSource());
+        $this->entity->setSource($source);
+        
+        $this->assertSame($source, $this->entity->getSource());
     }
 
-    public function testSetAndGetStatus_withValidEnum_shouldReturnSameEnum(): void
+    public function test_source_setter_with_null(): void
     {
+        $this->entity->setSource(null);
+        $this->assertNull($this->entity->getSource());
+    }
+
+    public function test_source_has_default_value(): void
+    {
+        $freshEntity = new TrustDevice();
+        $this->assertSame(TrustDeviceSourceEnum::UNKNOWN, $freshEntity->getSource());
+    }
+
+    public function test_status_getter_and_setter(): void
+    {
+        $this->assertSame(TrustDeviceStatusEnum::IMPORTED_BUT_NOT_LOGGED_IN, $this->entity->getStatus());
+
         $status = TrustDeviceStatusEnum::CONFIRMED_AS_TRUSTED_ENTERPRISE_DEVICE;
-        $this->trustDevice->setStatus($status);
-        $this->assertSame($status, $this->trustDevice->getStatus());
+        $this->entity->setStatus($status);
+        
+        $this->assertSame($status, $this->entity->getStatus());
     }
 
-    public function testSetAndGetCreateTime_withDateTimeObject_shouldReturnSameObject(): void
+    public function test_status_setter_with_null(): void
     {
-        $createTime = new DateTimeImmutable();
-        $this->trustDevice->setCreateTime($createTime);
-        $this->assertSame($createTime, $this->trustDevice->getCreateTime());
+        $this->entity->setStatus(null);
+        $this->assertNull($this->entity->getStatus());
     }
 
-    public function testSetAndGetUpdateTime_withDateTimeObject_shouldReturnSameObject(): void
+    public function test_status_has_default_value(): void
     {
-        $updateTime = new DateTimeImmutable();
-        $this->trustDevice->setUpdateTime($updateTime);
-        $this->assertSame($updateTime, $this->trustDevice->getUpdateTime());
+        $freshEntity = new TrustDevice();
+        $this->assertSame(TrustDeviceStatusEnum::IMPORTED_BUT_NOT_LOGGED_IN, $freshEntity->getStatus());
     }
-}
+
+    public function test_entity_with_all_properties_set(): void
+    {
+        $createTime = new \DateTime('2024-01-01 10:00:00');
+        $updateTime = new \DateTime('2024-01-01 11:00:00');
+        
+        $this->entity->setType('1');
+        $this->entity->setDeviceCode('device001');
+        $this->entity->setSystem('Windows 11');
+        $this->entity->setMacAddr('00:11:22:33:44:55');
+        $this->entity->setMotherboardUuid('12345678-1234-1234-1234-123456789abc');
+        $this->entity->setHarddiskUuid('87654321-4321-4321-4321-cba987654321');
+        $this->entity->setDomain('company.local');
+        $this->entity->setPcName('DESKTOP-ABCD123');
+        $this->entity->setSeqNo('C02XY1234567');
+        $this->entity->setLastLoginTime('1640995200');
+        $this->entity->setLastLoginUserid('user123');
+        $this->entity->setConfirmTimestamp('1640995200');
+        $this->entity->setConfirmUserid('admin123');
+        $this->entity->setApprovedUserid('admin456');
+        $this->entity->setSource(TrustDeviceSourceEnum::ADMIN_IMPORT);
+        $this->entity->setStatus(TrustDeviceStatusEnum::CONFIRMED_AS_TRUSTED_ENTERPRISE_DEVICE);
+        $this->entity->setCreateTime($createTime);
+        $this->entity->setUpdateTime($updateTime);
+
+        $this->assertSame('1', $this->entity->getType());
+        $this->assertSame('device001', $this->entity->getDeviceCode());
+        $this->assertSame('Windows 11', $this->entity->getSystem());
+        $this->assertSame('00:11:22:33:44:55', $this->entity->getMacAddr());
+        $this->assertSame('12345678-1234-1234-1234-123456789abc', $this->entity->getMotherboardUuid());
+        $this->assertSame('87654321-4321-4321-4321-cba987654321', $this->entity->getHarddiskUuid());
+        $this->assertSame('company.local', $this->entity->getDomain());
+        $this->assertSame('DESKTOP-ABCD123', $this->entity->getPcName());
+        $this->assertSame('C02XY1234567', $this->entity->getSeqNo());
+        $this->assertSame('1640995200', $this->entity->getLastLoginTime());
+        $this->assertSame('user123', $this->entity->getLastLoginUserid());
+        $this->assertSame('1640995200', $this->entity->getConfirmTimestamp());
+        $this->assertSame('admin123', $this->entity->getConfirmUserid());
+        $this->assertSame('admin456', $this->entity->getApprovedUserid());
+        $this->assertSame(TrustDeviceSourceEnum::ADMIN_IMPORT, $this->entity->getSource());
+        $this->assertSame(TrustDeviceStatusEnum::CONFIRMED_AS_TRUSTED_ENTERPRISE_DEVICE, $this->entity->getStatus());
+        $this->assertSame($createTime, $this->entity->getCreateTime());
+        $this->assertSame($updateTime, $this->entity->getUpdateTime());
+    }
+
+    public function test_macAddr_with_different_formats(): void
+    {
+        $formats = [
+            '00:11:22:33:44:55',
+            '00-11-22-33-44-55',
+            '0011.2233.4455'
+        ];
+        
+        foreach ($formats as $format) {
+            $this->entity->setMacAddr($format);
+            $this->assertSame($format, $this->entity->getMacAddr());
+        }
+    }
+
+    public function test_type_with_different_device_types(): void
+    {
+        $types = ['1', '2', '3'];
+        
+        foreach ($types as $type) {
+            $this->entity->setType($type);
+            $this->assertSame($type, $this->entity->getType());
+        }
+    }
+} 

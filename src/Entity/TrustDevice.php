@@ -75,10 +75,10 @@ class TrustDevice
     private ?string $approvedUserid = null;
 
     #[ORM\Column(length: 20, nullable: false, enumType: TrustDeviceSourceEnum::class, options: ['comment' => '设备来源'])]
-    private ?TrustDeviceSourceEnum $source;
+    private ?TrustDeviceSourceEnum $source = TrustDeviceSourceEnum::UNKNOWN;
 
     #[ORM\Column(length: 20, nullable: false, enumType: TrustDeviceStatusEnum::class, options: ['comment' => '设备来源'])]
-    private ?TrustDeviceStatusEnum $status;
+    private ?TrustDeviceStatusEnum $status = TrustDeviceStatusEnum::IMPORTED_BUT_NOT_LOGGED_IN;
 
     #[Filterable]
     #[IndexColumn]

@@ -7,7 +7,20 @@ use WechatWorkSecurityBundle\Enum\TrustDeviceStatusEnum;
 
 class TrustDeviceStatusEnumTest extends TestCase
 {
-    public function testEnumValues_shouldBeCorrect(): void
+    public function test_enum_cases_exist(): void
+    {
+        $cases = TrustDeviceStatusEnum::cases();
+        
+        $this->assertCount(6, $cases);
+        $this->assertContains(TrustDeviceStatusEnum::IMPORTED_BUT_NOT_LOGGED_IN, $cases);
+        $this->assertContains(TrustDeviceStatusEnum::PENDING_INVITATION, $cases);
+        $this->assertContains(TrustDeviceStatusEnum::PENDING_ADMIN_CONFIRMATION_AS_ENTERPRISE_DEVICE, $cases);
+        $this->assertContains(TrustDeviceStatusEnum::PENDING_ADMIN_CONFIRMATION_AS_PERSONAL_DEVICE, $cases);
+        $this->assertContains(TrustDeviceStatusEnum::CONFIRMED_AS_TRUSTED_ENTERPRISE_DEVICE, $cases);
+        $this->assertContains(TrustDeviceStatusEnum::CONFIRMED_AS_TRUSTED_PERSONAL_DEVICE, $cases);
+    }
+
+    public function test_enum_values_are_correct(): void
     {
         $this->assertSame(1, TrustDeviceStatusEnum::IMPORTED_BUT_NOT_LOGGED_IN->value);
         $this->assertSame(2, TrustDeviceStatusEnum::PENDING_INVITATION->value);
@@ -17,7 +30,7 @@ class TrustDeviceStatusEnumTest extends TestCase
         $this->assertSame(6, TrustDeviceStatusEnum::CONFIRMED_AS_TRUSTED_PERSONAL_DEVICE->value);
     }
 
-    public function testGetLabel_shouldReturnCorrectLabel(): void
+    public function test_getLabel_returns_correct_labels(): void
     {
         $this->assertSame('已导入未登录', TrustDeviceStatusEnum::IMPORTED_BUT_NOT_LOGGED_IN->getLabel());
         $this->assertSame('待邀请', TrustDeviceStatusEnum::PENDING_INVITATION->getLabel());
@@ -27,36 +40,76 @@ class TrustDeviceStatusEnumTest extends TestCase
         $this->assertSame('已确认为可信个人设备', TrustDeviceStatusEnum::CONFIRMED_AS_TRUSTED_PERSONAL_DEVICE->getLabel());
     }
 
-    public function testCases_shouldReturnAllCases(): void
+    public function test_tryFrom_with_valid_values(): void
     {
-        $cases = TrustDeviceStatusEnum::cases();
-
-        $this->assertCount(6, $cases);
-        $this->assertContainsOnlyInstancesOf(TrustDeviceStatusEnum::class, $cases);
-        $this->assertSame(TrustDeviceStatusEnum::IMPORTED_BUT_NOT_LOGGED_IN, $cases[0]);
-        $this->assertSame(TrustDeviceStatusEnum::PENDING_INVITATION, $cases[1]);
-        $this->assertSame(TrustDeviceStatusEnum::PENDING_ADMIN_CONFIRMATION_AS_ENTERPRISE_DEVICE, $cases[2]);
-        $this->assertSame(TrustDeviceStatusEnum::PENDING_ADMIN_CONFIRMATION_AS_PERSONAL_DEVICE, $cases[3]);
-        $this->assertSame(TrustDeviceStatusEnum::CONFIRMED_AS_TRUSTED_ENTERPRISE_DEVICE, $cases[4]);
-        $this->assertSame(TrustDeviceStatusEnum::CONFIRMED_AS_TRUSTED_PERSONAL_DEVICE, $cases[5]);
+        $this->assertSame(TrustDeviceStatusEnum::IMPORTED_BUT_NOT_LOGGED_IN, TrustDeviceStatusEnum::tryFrom(1));
+        $this->assertSame(TrustDeviceStatusEnum::PENDING_INVITATION, TrustDeviceStatusEnum::tryFrom(2));
+        $this->assertSame(TrustDeviceStatusEnum::PENDING_ADMIN_CONFIRMATION_AS_ENTERPRISE_DEVICE, TrustDeviceStatusEnum::tryFrom(3));
+        $this->assertSame(TrustDeviceStatusEnum::PENDING_ADMIN_CONFIRMATION_AS_PERSONAL_DEVICE, TrustDeviceStatusEnum::tryFrom(4));
+        $this->assertSame(TrustDeviceStatusEnum::CONFIRMED_AS_TRUSTED_ENTERPRISE_DEVICE, TrustDeviceStatusEnum::tryFrom(5));
+        $this->assertSame(TrustDeviceStatusEnum::CONFIRMED_AS_TRUSTED_PERSONAL_DEVICE, TrustDeviceStatusEnum::tryFrom(6));
     }
 
-    public function testGenOptions_shouldReturnCorrectOptions(): void
+    public function test_tryFrom_with_invalid_value_returns_null(): void
+    {
+        $this->assertNull(TrustDeviceStatusEnum::tryFrom(0));
+        $this->assertNull(TrustDeviceStatusEnum::tryFrom(7));
+        $this->assertNull(TrustDeviceStatusEnum::tryFrom(-1));
+    }
+
+    public function test_from_with_valid_values(): void
+    {
+        $this->assertSame(TrustDeviceStatusEnum::IMPORTED_BUT_NOT_LOGGED_IN, TrustDeviceStatusEnum::from(1));
+        $this->assertSame(TrustDeviceStatusEnum::CONFIRMED_AS_TRUSTED_PERSONAL_DEVICE, TrustDeviceStatusEnum::from(6));
+    }
+
+    public function test_from_with_invalid_value_throws_exception(): void
+    {
+        $this->expectException(\ValueError::class);
+        TrustDeviceStatusEnum::from(999);
+    }
+
+    public function test_implements_required_interfaces(): void
+    {
+        $enum = TrustDeviceStatusEnum::IMPORTED_BUT_NOT_LOGGED_IN;
+        
+        $this->assertInstanceOf(\Tourze\EnumExtra\Labelable::class, $enum);
+        $this->assertInstanceOf(\Tourze\EnumExtra\Itemable::class, $enum);
+        $this->assertInstanceOf(\Tourze\EnumExtra\Selectable::class, $enum);
+    }
+
+    public function test_trait_methods_are_available(): void
+    {
+        $this->assertTrue(method_exists(TrustDeviceStatusEnum::class, 'genOptions'));
+        $this->assertTrue(method_exists(TrustDeviceStatusEnum::class, 'toSelectItem'));
+        $this->assertTrue(method_exists(TrustDeviceStatusEnum::class, 'toArray'));
+    }
+
+    public function test_toSelectItem_returns_correct_structure(): void
+    {
+        $item = TrustDeviceStatusEnum::IMPORTED_BUT_NOT_LOGGED_IN->toSelectItem();
+        
+        $this->assertArrayHasKey('label', $item);
+        $this->assertArrayHasKey('text', $item);
+        $this->assertArrayHasKey('value', $item);
+        $this->assertArrayHasKey('name', $item);
+        
+        $this->assertSame('已导入未登录', $item['label']);
+        $this->assertSame('已导入未登录', $item['text']);
+        $this->assertSame(1, $item['value']);
+        $this->assertSame('已导入未登录', $item['name']);
+    }
+
+    public function test_genOptions_returns_array_of_options(): void
     {
         $options = TrustDeviceStatusEnum::genOptions();
-
-        $this->assertCount(6, $options);
+        
         $this->assertIsArray($options);
-
-        // 检查第一个选项
-        $this->assertArrayHasKey('value', $options[0]);
-        $this->assertArrayHasKey('text', $options[0]);
-        $this->assertSame(1, $options[0]['value']);
-        $this->assertSame('已导入未登录', $options[0]['text']);
-
-        // 检查最后一个选项
-        $lastIndex = count($options) - 1;
-        $this->assertSame(6, $options[$lastIndex]['value']);
-        $this->assertSame('已确认为可信个人设备', $options[$lastIndex]['text']);
+        $this->assertCount(6, $options);
+        
+        foreach ($options as $option) {
+            $this->assertArrayHasKey('label', $option);
+            $this->assertArrayHasKey('value', $option);
+        }
     }
-}
+} 

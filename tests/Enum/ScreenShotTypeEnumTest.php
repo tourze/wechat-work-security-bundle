@@ -7,7 +7,20 @@ use WechatWorkSecurityBundle\Enum\ScreenShotTypeEnum;
 
 class ScreenShotTypeEnumTest extends TestCase
 {
-    public function testEnumValues_shouldBeCorrect(): void
+    public function test_enum_cases_exist(): void
+    {
+        $cases = ScreenShotTypeEnum::cases();
+        
+        $this->assertCount(6, $cases);
+        $this->assertContains(ScreenShotTypeEnum::CHAT, $cases);
+        $this->assertContains(ScreenShotTypeEnum::CONTACTS, $cases);
+        $this->assertContains(ScreenShotTypeEnum::MAIL, $cases);
+        $this->assertContains(ScreenShotTypeEnum::FILES, $cases);
+        $this->assertContains(ScreenShotTypeEnum::SCHEDULE, $cases);
+        $this->assertContains(ScreenShotTypeEnum::OTHERS, $cases);
+    }
+
+    public function test_enum_values_are_correct(): void
     {
         $this->assertSame(1, ScreenShotTypeEnum::CHAT->value);
         $this->assertSame(2, ScreenShotTypeEnum::CONTACTS->value);
@@ -17,7 +30,7 @@ class ScreenShotTypeEnumTest extends TestCase
         $this->assertSame(6, ScreenShotTypeEnum::OTHERS->value);
     }
 
-    public function testGetLabel_shouldReturnCorrectLabel(): void
+    public function test_getLabel_returns_correct_labels(): void
     {
         $this->assertSame('聊天', ScreenShotTypeEnum::CHAT->getLabel());
         $this->assertSame('通讯录', ScreenShotTypeEnum::CONTACTS->getLabel());
@@ -27,31 +40,76 @@ class ScreenShotTypeEnumTest extends TestCase
         $this->assertSame('其他', ScreenShotTypeEnum::OTHERS->getLabel());
     }
 
-    public function testCases_shouldReturnAllCases(): void
+    public function test_tryFrom_with_valid_values(): void
     {
-        $cases = ScreenShotTypeEnum::cases();
-
-        $this->assertCount(6, $cases);
-        $this->assertContainsOnlyInstancesOf(ScreenShotTypeEnum::class, $cases);
-        $this->assertSame(ScreenShotTypeEnum::CHAT, $cases[0]);
-        $this->assertSame(ScreenShotTypeEnum::CONTACTS, $cases[1]);
-        $this->assertSame(ScreenShotTypeEnum::MAIL, $cases[2]);
-        $this->assertSame(ScreenShotTypeEnum::FILES, $cases[3]);
-        $this->assertSame(ScreenShotTypeEnum::SCHEDULE, $cases[4]);
-        $this->assertSame(ScreenShotTypeEnum::OTHERS, $cases[5]);
+        $this->assertSame(ScreenShotTypeEnum::CHAT, ScreenShotTypeEnum::tryFrom(1));
+        $this->assertSame(ScreenShotTypeEnum::CONTACTS, ScreenShotTypeEnum::tryFrom(2));
+        $this->assertSame(ScreenShotTypeEnum::MAIL, ScreenShotTypeEnum::tryFrom(3));
+        $this->assertSame(ScreenShotTypeEnum::FILES, ScreenShotTypeEnum::tryFrom(4));
+        $this->assertSame(ScreenShotTypeEnum::SCHEDULE, ScreenShotTypeEnum::tryFrom(5));
+        $this->assertSame(ScreenShotTypeEnum::OTHERS, ScreenShotTypeEnum::tryFrom(6));
     }
 
-    public function testGenOptions_shouldReturnCorrectOptions(): void
+    public function test_tryFrom_with_invalid_value_returns_null(): void
+    {
+        $this->assertNull(ScreenShotTypeEnum::tryFrom(0));
+        $this->assertNull(ScreenShotTypeEnum::tryFrom(7));
+        $this->assertNull(ScreenShotTypeEnum::tryFrom(-1));
+    }
+
+    public function test_from_with_valid_values(): void
+    {
+        $this->assertSame(ScreenShotTypeEnum::CHAT, ScreenShotTypeEnum::from(1));
+        $this->assertSame(ScreenShotTypeEnum::OTHERS, ScreenShotTypeEnum::from(6));
+    }
+
+    public function test_from_with_invalid_value_throws_exception(): void
+    {
+        $this->expectException(\ValueError::class);
+        ScreenShotTypeEnum::from(999);
+    }
+
+    public function test_implements_required_interfaces(): void
+    {
+        $enum = ScreenShotTypeEnum::CHAT;
+        
+        $this->assertInstanceOf(\Tourze\EnumExtra\Labelable::class, $enum);
+        $this->assertInstanceOf(\Tourze\EnumExtra\Itemable::class, $enum);
+        $this->assertInstanceOf(\Tourze\EnumExtra\Selectable::class, $enum);
+    }
+
+    public function test_trait_methods_are_available(): void
+    {
+        $this->assertTrue(method_exists(ScreenShotTypeEnum::class, 'genOptions'));
+        $this->assertTrue(method_exists(ScreenShotTypeEnum::class, 'toSelectItem'));
+        $this->assertTrue(method_exists(ScreenShotTypeEnum::class, 'toArray'));
+    }
+
+    public function test_toSelectItem_returns_correct_structure(): void
+    {
+        $item = ScreenShotTypeEnum::CHAT->toSelectItem();
+        
+        $this->assertArrayHasKey('label', $item);
+        $this->assertArrayHasKey('text', $item);
+        $this->assertArrayHasKey('value', $item);
+        $this->assertArrayHasKey('name', $item);
+        
+        $this->assertSame('聊天', $item['label']);
+        $this->assertSame('聊天', $item['text']);
+        $this->assertSame(1, $item['value']);
+        $this->assertSame('聊天', $item['name']);
+    }
+
+    public function test_genOptions_returns_array_of_options(): void
     {
         $options = ScreenShotTypeEnum::genOptions();
-
-        $this->assertCount(6, $options);
+        
         $this->assertIsArray($options);
-
-        // 检查第一个选项
-        $this->assertArrayHasKey('value', $options[0]);
-        $this->assertArrayHasKey('text', $options[0]);
-        $this->assertSame(1, $options[0]['value']);
-        $this->assertSame('聊天', $options[0]['text']);
+        $this->assertCount(6, $options);
+        
+        foreach ($options as $option) {
+            $this->assertArrayHasKey('label', $option);
+            $this->assertArrayHasKey('value', $option);
+        }
     }
-}
+} 

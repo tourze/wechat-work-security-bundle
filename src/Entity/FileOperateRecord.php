@@ -56,7 +56,7 @@ class FileOperateRecord
     private ?string $applicantName = null;
 
     #[ORM\Column(length: 20, nullable: false, enumType: FileOperateDeviceCodeEnum::class, options: ['comment' => '设备类型'])]
-    private ?FileOperateDeviceCodeEnum $deviceType;
+    private ?FileOperateDeviceCodeEnum $deviceType = FileOperateDeviceCodeEnum::FIRM;
 
     #[ORM\Column(length: 80, nullable: true, options: ['comment' => '设备编码'])]
     private ?string $deviceCode = null;

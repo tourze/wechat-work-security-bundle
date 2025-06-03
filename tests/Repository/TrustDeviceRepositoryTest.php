@@ -2,52 +2,50 @@
 
 namespace WechatWorkSecurityBundle\Tests\Repository;
 
-use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\Mapping\ClassMetadata;
-use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use PHPUnit\Framework\TestCase;
-use WechatWorkSecurityBundle\Entity\TrustDevice;
 use WechatWorkSecurityBundle\Repository\TrustDeviceRepository;
 
 class TrustDeviceRepositoryTest extends TestCase
 {
-    private TrustDeviceRepository $repository;
-    private EntityManagerInterface $entityManager;
-    private ManagerRegistry $registry;
-    private ClassMetadata $classMetadata;
-
-    protected function setUp(): void
+    public function test_extends_service_entity_repository(): void
     {
-        // 创建模拟对象
-        $this->entityManager = $this->createMock(EntityManagerInterface::class);
-        $this->registry = $this->createMock(ManagerRegistry::class);
-        $this->classMetadata = $this->createMock(ClassMetadata::class);
-
-        // 配置ClassMetadata
-        $this->classMetadata->name = TrustDevice::class;
-
-        // 配置EntityManager以返回ClassMetadata
-        $this->entityManager->expects($this->any())
-            ->method('getClassMetadata')
-            ->with(TrustDevice::class)
-            ->willReturn($this->classMetadata);
-
-        // 配置registry模拟对象以返回entityManager
-        $this->registry->expects($this->any())
-            ->method('getManagerForClass')
-            ->with(TrustDevice::class)
-            ->willReturn($this->entityManager);
-
-        $this->registry->expects($this->any())
-            ->method('getManager')
-            ->willReturn($this->entityManager);
-
-        // 创建仓库实例
-        $this->repository = new TrustDeviceRepository($this->registry);
+        $reflection = new \ReflectionClass(TrustDeviceRepository::class);
+        $this->assertTrue($reflection->isSubclassOf(ServiceEntityRepository::class));
     }
 
-    public function testConstruct_shouldCreateValidRepository(): void
+    public function test_implements_expected_methods(): void
     {
-        $this->assertInstanceOf(TrustDeviceRepository::class, $this->repository);
+        $this->assertTrue(method_exists(TrustDeviceRepository::class, '__construct'));
+        
+        // 验证继承的方法存在
+        $this->assertTrue(method_exists(TrustDeviceRepository::class, 'find'));
+        $this->assertTrue(method_exists(TrustDeviceRepository::class, 'findOneBy'));
+        $this->assertTrue(method_exists(TrustDeviceRepository::class, 'findAll'));
+        $this->assertTrue(method_exists(TrustDeviceRepository::class, 'findBy'));
     }
-}
+
+    public function test_constructor_parameter_is_correct(): void
+    {
+        $reflection = new \ReflectionClass(TrustDeviceRepository::class);
+        $constructor = $reflection->getConstructor();
+        
+        $this->assertNotNull($constructor);
+        $this->assertCount(1, $constructor->getParameters());
+        
+        $parameter = $constructor->getParameters()[0];
+        $this->assertSame('registry', $parameter->getName());
+    }
+
+    public function test_has_proper_phpdoc_annotations(): void
+    {
+        $reflection = new \ReflectionClass(TrustDeviceRepository::class);
+        $docComment = $reflection->getDocComment();
+        
+        $this->assertNotFalse($docComment);
+        $this->assertStringContainsString('TrustDevice|null find(', $docComment);
+        $this->assertStringContainsString('TrustDevice|null findOneBy(', $docComment);
+        $this->assertStringContainsString('TrustDevice[]    findAll()', $docComment);
+        $this->assertStringContainsString('TrustDevice[]    findBy(', $docComment);
+    }
+} 
