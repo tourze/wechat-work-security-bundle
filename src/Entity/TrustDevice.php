@@ -4,13 +4,10 @@ namespace WechatWorkSecurityBundle\Entity;
 
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use Tourze\DoctrineIndexedBundle\Attribute\IndexColumn;
-use Tourze\DoctrineTimestampBundle\Attribute\CreateTimeColumn;
-use Tourze\DoctrineTimestampBundle\Attribute\UpdateTimeColumn;
+use Tourze\DoctrineTimestampBundle\Traits\TimestampableAware;
 use Tourze\EasyAdmin\Attribute\Action\Exportable;
 use Tourze\EasyAdmin\Attribute\Column\ExportColumn;
 use Tourze\EasyAdmin\Attribute\Column\ListColumn;
-use Tourze\EasyAdmin\Attribute\Filter\Filterable;
 use Tourze\EasyAdmin\Attribute\Permission\AsPermission;
 use WechatWorkSecurityBundle\Enum\TrustDeviceSourceEnum;
 use WechatWorkSecurityBundle\Enum\TrustDeviceStatusEnum;
@@ -25,6 +22,7 @@ use WechatWorkSecurityBundle\Repository\TrustDeviceRepository;
 #[ORM\Table(name: 'wechat_work_trust_device', options: ['comment' => '获取设备信息'])]
 class TrustDevice
 {
+    use TimestampableAware;
     #[ListColumn(order: -1)]
     #[ExportColumn]
     #[ORM\Id]
@@ -79,21 +77,6 @@ class TrustDevice
 
     #[ORM\Column(length: 20, nullable: false, enumType: TrustDeviceStatusEnum::class, options: ['comment' => '设备来源'])]
     private ?TrustDeviceStatusEnum $status = TrustDeviceStatusEnum::IMPORTED_BUT_NOT_LOGGED_IN;
-
-    #[Filterable]
-    #[IndexColumn]
-    #[ListColumn(order: 98, sorter: true)]
-    #[ExportColumn]
-    #[CreateTimeColumn]
-    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true, options: ['comment' => '创建时间'])]
-    private ?\DateTimeInterface $createTime = null;
-
-    #[UpdateTimeColumn]
-    #[ListColumn(order: 99, sorter: true)]
-    #[Filterable]
-    #[ExportColumn]
-    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true, options: ['comment' => '更新时间'])]
-    private ?\DateTimeInterface $updateTime = null;
 
     public function getId(): ?int
     {
@@ -258,25 +241,4 @@ class TrustDevice
     public function setDeviceCode(?string $deviceCode): void
     {
         $this->deviceCode = $deviceCode;
-    }
-
-    public function setCreateTime(?\DateTimeInterface $createdAt): void
-    {
-        $this->createTime = $createdAt;
-    }
-
-    public function getCreateTime(): ?\DateTimeInterface
-    {
-        return $this->createTime;
-    }
-
-    public function setUpdateTime(?\DateTimeInterface $updateTime): void
-    {
-        $this->updateTime = $updateTime;
-    }
-
-    public function getUpdateTime(): ?\DateTimeInterface
-    {
-        return $this->updateTime;
-    }
-}
+    }}
