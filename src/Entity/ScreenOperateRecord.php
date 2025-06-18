@@ -6,24 +6,18 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Tourze\DoctrineTimestampBundle\Traits\TimestampableAware;
 use Tourze\EasyAdmin\Attribute\Action\Exportable;
-use Tourze\EasyAdmin\Attribute\Column\ExportColumn;
-use Tourze\EasyAdmin\Attribute\Column\ListColumn;
-use Tourze\EasyAdmin\Attribute\Permission\AsPermission;
 use WechatWorkSecurityBundle\Enum\ScreenShotTypeEnum;
 use WechatWorkSecurityBundle\Repository\ScreenOperateRecordRepository;
 
 /**
  * @see https://developer.work.weixin.qq.com/document/path/100128
  */
-#[AsPermission(title: '截屏/录屏管理')]
 #[Exportable]
 #[ORM\Entity(repositoryClass: ScreenOperateRecordRepository::class)]
 #[ORM\Table(name: 'wechat_work_screen_operate_record', options: ['comment' => '截屏/录屏管理'])]
 class ScreenOperateRecord
 {
     use TimestampableAware;
-    #[ListColumn(order: -1)]
-    #[ExportColumn]
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: Types::INTEGER, options: ['comment' => 'ID'])]

@@ -6,9 +6,6 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Tourze\DoctrineTimestampBundle\Traits\TimestampableAware;
 use Tourze\EasyAdmin\Attribute\Action\Exportable;
-use Tourze\EasyAdmin\Attribute\Column\ExportColumn;
-use Tourze\EasyAdmin\Attribute\Column\ListColumn;
-use Tourze\EasyAdmin\Attribute\Permission\AsPermission;
 use WechatWorkSecurityBundle\Enum\TrustDeviceSourceEnum;
 use WechatWorkSecurityBundle\Enum\TrustDeviceStatusEnum;
 use WechatWorkSecurityBundle\Repository\TrustDeviceRepository;
@@ -16,15 +13,12 @@ use WechatWorkSecurityBundle\Repository\TrustDeviceRepository;
 /**
  * @see https://developer.work.weixin.qq.com/document/path/98920
  */
-#[AsPermission(title: '获取设备信息')]
 #[Exportable]
 #[ORM\Entity(repositoryClass: TrustDeviceRepository::class)]
 #[ORM\Table(name: 'wechat_work_trust_device', options: ['comment' => '获取设备信息'])]
 class TrustDevice
 {
     use TimestampableAware;
-    #[ListColumn(order: -1)]
-    #[ExportColumn]
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: Types::INTEGER, options: ['comment' => 'ID'])]

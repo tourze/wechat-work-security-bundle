@@ -6,24 +6,18 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Tourze\DoctrineTimestampBundle\Traits\TimestampableAware;
 use Tourze\EasyAdmin\Attribute\Action\Exportable;
-use Tourze\EasyAdmin\Attribute\Column\ExportColumn;
-use Tourze\EasyAdmin\Attribute\Column\ListColumn;
-use Tourze\EasyAdmin\Attribute\Permission\AsPermission;
 use WechatWorkSecurityBundle\Enum\FileOperateDeviceCodeEnum;
 use WechatWorkSecurityBundle\Repository\FileOperateRecordRepository;
 
 /**
  * @see https://developer.work.weixin.qq.com/document/path/98079
  */
-#[AsPermission(title: '文件防泄漏')]
 #[Exportable]
 #[ORM\Entity(repositoryClass: FileOperateRecordRepository::class)]
 #[ORM\Table(name: 'wechat_work_file_operate_record', options: ['comment' => '文件防泄漏'])]
 class FileOperateRecord
 {
     use TimestampableAware;
-    #[ListColumn(order: -1)]
-    #[ExportColumn]
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: Types::INTEGER, options: ['comment' => 'ID'])]

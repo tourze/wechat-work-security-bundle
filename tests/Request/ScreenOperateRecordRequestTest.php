@@ -59,8 +59,6 @@ class ScreenOperateRecordRequestTest extends TestCase
         $this->request->setEndTime(1640995260);
 
         $options = $this->request->getRequestOptions();
-        
-        $this->assertIsArray($options);
         $this->assertArrayHasKey('json', $options);
         $this->assertArrayHasKey('start_time', $options['json']);
         $this->assertArrayHasKey('end_time', $options['json']);

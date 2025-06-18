@@ -95,8 +95,6 @@ class TrustDeviceSourceEnumTest extends TestCase
     public function test_genOptions_returns_array_of_options(): void
     {
         $options = TrustDeviceSourceEnum::genOptions();
-        
-        $this->assertIsArray($options);
         $this->assertCount(4, $options);
         
         foreach ($options as $option) {

@@ -103,8 +103,6 @@ class ScreenShotTypeEnumTest extends TestCase
     public function test_genOptions_returns_array_of_options(): void
     {
         $options = ScreenShotTypeEnum::genOptions();
-        
-        $this->assertIsArray($options);
         $this->assertCount(6, $options);
         
         foreach ($options as $option) {

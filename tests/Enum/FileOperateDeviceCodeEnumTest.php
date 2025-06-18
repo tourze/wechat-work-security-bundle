@@ -98,8 +98,6 @@ class FileOperateDeviceCodeEnumTest extends TestCase
     public function test_genOptions_returns_array_of_options(): void
     {
         $options = FileOperateDeviceCodeEnum::genOptions();
-        
-        $this->assertIsArray($options);
         $this->assertCount(2, $options);
         
         foreach ($options as $option) {

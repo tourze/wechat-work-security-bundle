@@ -50,8 +50,6 @@ class TrustDeviceRequestTest extends TestCase
         $this->request->setType(2);
 
         $options = $this->request->getRequestOptions();
-        
-        $this->assertIsArray($options);
         $this->assertArrayHasKey('json', $options);
         $this->assertArrayHasKey('type', $options['json']);
         

@@ -6,23 +6,17 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Tourze\DoctrineTimestampBundle\Traits\TimestampableAware;
 use Tourze\EasyAdmin\Attribute\Action\Exportable;
-use Tourze\EasyAdmin\Attribute\Column\ExportColumn;
-use Tourze\EasyAdmin\Attribute\Column\ListColumn;
-use Tourze\EasyAdmin\Attribute\Permission\AsPermission;
 use WechatWorkSecurityBundle\Repository\MemberOperateRecordRepository;
 
 /**
  * @see https://developer.work.weixin.qq.com/document/path/100178
  */
-#[AsPermission(title: '获取成员操作记录')]
 #[Exportable]
 #[ORM\Entity(repositoryClass: MemberOperateRecordRepository::class)]
 #[ORM\Table(name: 'wechat_work_member_operate_record', options: ['comment' => '获取成员操作记录'])]
 class MemberOperateRecord
 {
     use TimestampableAware;
-    #[ListColumn(order: -1)]
-    #[ExportColumn]
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: Types::INTEGER, options: ['comment' => 'ID'])]
