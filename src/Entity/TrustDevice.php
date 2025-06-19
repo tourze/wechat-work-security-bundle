@@ -16,7 +16,7 @@ use WechatWorkSecurityBundle\Repository\TrustDeviceRepository;
 #[Exportable]
 #[ORM\Entity(repositoryClass: TrustDeviceRepository::class)]
 #[ORM\Table(name: 'wechat_work_trust_device', options: ['comment' => '获取设备信息'])]
-class TrustDevice
+class TrustDevice implements \Stringable
 {
     use TimestampableAware;
     #[ORM\Id]
@@ -235,4 +235,9 @@ class TrustDevice
     public function setDeviceCode(?string $deviceCode): void
     {
         $this->deviceCode = $deviceCode;
-    }}
+    }
+    public function __toString(): string
+    {
+        return (string) $this->getId();
+    }
+}

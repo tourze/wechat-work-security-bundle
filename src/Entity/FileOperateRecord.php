@@ -15,7 +15,7 @@ use WechatWorkSecurityBundle\Repository\FileOperateRecordRepository;
 #[Exportable]
 #[ORM\Entity(repositoryClass: FileOperateRecordRepository::class)]
 #[ORM\Table(name: 'wechat_work_file_operate_record', options: ['comment' => '文件防泄漏'])]
-class FileOperateRecord
+class FileOperateRecord implements \Stringable
 {
     use TimestampableAware;
     #[ORM\Id]
@@ -156,4 +156,9 @@ class FileOperateRecord
     public function setTime(?\DateTimeInterface $time): void
     {
         $this->time = $time;
-    }}
+    }
+    public function __toString(): string
+    {
+        return (string) $this->getId();
+    }
+}

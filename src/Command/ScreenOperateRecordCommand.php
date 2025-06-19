@@ -22,6 +22,8 @@ use WechatWorkSecurityBundle\Request\ScreenOperateRecordRequest;
 #[AsCommand(name: 'wechat-work:screen-operate-record', description: '截屏/录屏管理')]
 class ScreenOperateRecordCommand extends Command
 {
+    public const NAME = 'screen-operate-record';
+
     public function __construct(
         private readonly AgentRepository $agentRepository,
         private readonly WorkService $workService,

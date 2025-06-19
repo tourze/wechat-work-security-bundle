@@ -21,6 +21,8 @@ use WechatWorkSecurityBundle\Request\TrustDeviceRequest;
 #[AsCommand(name: 'wechat-work:trust-device', description: '获取设备信息')]
 class TrustDeviceCommand extends Command
 {
+    public const NAME = 'trust-device';
+
     public function __construct(
         private readonly AgentRepository $agentRepository,
         private readonly WorkService $workService,

@@ -15,7 +15,7 @@ use WechatWorkSecurityBundle\Repository\ScreenOperateRecordRepository;
 #[Exportable]
 #[ORM\Entity(repositoryClass: ScreenOperateRecordRepository::class)]
 #[ORM\Table(name: 'wechat_work_screen_operate_record', options: ['comment' => '截屏/录屏管理'])]
-class ScreenOperateRecord
+class ScreenOperateRecord implements \Stringable
 {
     use TimestampableAware;
     #[ORM\Id]
@@ -104,4 +104,9 @@ class ScreenOperateRecord
     public function setTime(?\DateTimeInterface $time): void
     {
         $this->time = $time;
-    }}
+    }
+    public function __toString(): string
+    {
+        return (string) $this->getId();
+    }
+}

@@ -21,6 +21,8 @@ use WechatWorkSecurityBundle\Request\MemberOperateRecordRequest;
 #[AsCommand(name: 'wechat-work:member-operate-record', description: '获取成员操作记录')]
 class MemberOperateRecordCommand extends Command
 {
+    public const NAME = 'member-operate-record';
+
     public function __construct(
         private readonly AgentRepository $agentRepository,
         private readonly WorkService $workService,

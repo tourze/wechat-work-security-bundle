@@ -22,6 +22,8 @@ use WechatWorkSecurityBundle\Request\FileOperateRecordRequest;
 #[AsCommand(name: 'wechat-work:file-operate-record', description: '文件防泄漏')]
 class FileOperateRecordCommand extends Command
 {
+    public const NAME = 'file-operate-record';
+
     public function __construct(
         private readonly AgentRepository $agentRepository,
         private readonly WorkService $workService,
