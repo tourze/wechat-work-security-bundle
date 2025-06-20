@@ -26,7 +26,7 @@ class FileOperateRecordTest extends TestCase
 
         $time = new \DateTime('2024-01-01 12:00:00');
         $this->entity->setTime($time);
-        
+
         $this->assertSame($time, $this->entity->getTime());
     }
 
@@ -42,7 +42,7 @@ class FileOperateRecordTest extends TestCase
 
         $userid = 'test_user_123';
         $this->entity->setUserid($userid);
-        
+
         $this->assertSame($userid, $this->entity->getUserid());
     }
 
@@ -58,7 +58,7 @@ class FileOperateRecordTest extends TestCase
 
         $externalUser = 'external_user_456';
         $this->entity->setExternalUser($externalUser);
-        
+
         $this->assertSame($externalUser, $this->entity->getExternalUser());
     }
 
@@ -74,7 +74,7 @@ class FileOperateRecordTest extends TestCase
 
         $operation = 'download';
         $this->entity->setOperation($operation);
-        
+
         $this->assertSame($operation, $this->entity->getOperation());
     }
 
@@ -90,7 +90,7 @@ class FileOperateRecordTest extends TestCase
 
         $fileInfo = 'document.pdf';
         $this->entity->setFileInfo($fileInfo);
-        
+
         $this->assertSame($fileInfo, $this->entity->getFileInfo());
     }
 
@@ -106,7 +106,7 @@ class FileOperateRecordTest extends TestCase
 
         $md5 = 'a1b2c3d4e5f6789012345678901234567890abcd';
         $this->entity->setFileMd5($md5);
-        
+
         $this->assertSame($md5, $this->entity->getFileMd5());
     }
 
@@ -122,7 +122,7 @@ class FileOperateRecordTest extends TestCase
 
         $fileSize = '1024000';
         $this->entity->setFileSize($fileSize);
-        
+
         $this->assertSame($fileSize, $this->entity->getFileSize());
     }
 
@@ -138,7 +138,7 @@ class FileOperateRecordTest extends TestCase
 
         $applicantName = '张三';
         $this->entity->setApplicantName($applicantName);
-        
+
         $this->assertSame($applicantName, $this->entity->getApplicantName());
     }
 
@@ -154,7 +154,7 @@ class FileOperateRecordTest extends TestCase
 
         $deviceType = FileOperateDeviceCodeEnum::PERSONAGE;
         $this->entity->setDeviceType($deviceType);
-        
+
         $this->assertSame($deviceType, $this->entity->getDeviceType());
     }
 
@@ -176,7 +176,7 @@ class FileOperateRecordTest extends TestCase
 
         $deviceCode = 'device_001';
         $this->entity->setDeviceCode($deviceCode);
-        
+
         $this->assertSame($deviceCode, $this->entity->getDeviceCode());
     }
 
@@ -190,9 +190,9 @@ class FileOperateRecordTest extends TestCase
     {
         $this->assertNull($this->entity->getCreateTime());
 
-        $createTime = new \DateTime('2024-01-01 10:00:00');
+        $createTime = new \DateTimeImmutable('2024-01-01 10:00:00');
         $this->entity->setCreateTime($createTime);
-        
+
         $this->assertSame($createTime, $this->entity->getCreateTime());
     }
 
@@ -206,9 +206,9 @@ class FileOperateRecordTest extends TestCase
     {
         $this->assertNull($this->entity->getUpdateTime());
 
-        $updateTime = new \DateTime('2024-01-01 11:00:00');
+        $updateTime = new \DateTimeImmutable('2024-01-01 11:00:00');
         $this->entity->setUpdateTime($updateTime);
-        
+
         $this->assertSame($updateTime, $this->entity->getUpdateTime());
     }
 
@@ -220,10 +220,10 @@ class FileOperateRecordTest extends TestCase
 
     public function test_entity_with_all_properties_set(): void
     {
-        $time = new \DateTime('2024-01-01 12:00:00');
-        $createTime = new \DateTime('2024-01-01 10:00:00');
-        $updateTime = new \DateTime('2024-01-01 11:00:00');
-        
+        $time = new \DateTimeImmutable('2024-01-01 12:00:00');
+        $createTime = new \DateTimeImmutable('2024-01-01 10:00:00');
+        $updateTime = new \DateTimeImmutable('2024-01-01 11:00:00');
+
         $this->entity->setTime($time);
         $this->entity->setUserid('user123');
         $this->entity->setExternalUser('external456');
@@ -250,4 +250,4 @@ class FileOperateRecordTest extends TestCase
         $this->assertSame($createTime, $this->entity->getCreateTime());
         $this->assertSame($updateTime, $this->entity->getUpdateTime());
     }
-} 
+}

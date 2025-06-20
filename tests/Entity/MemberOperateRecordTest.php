@@ -25,7 +25,7 @@ class MemberOperateRecordTest extends TestCase
 
         $time = new \DateTime('2024-01-01 12:00:00');
         $this->entity->setTime($time);
-        
+
         $this->assertSame($time, $this->entity->getTime());
     }
 
@@ -41,7 +41,7 @@ class MemberOperateRecordTest extends TestCase
 
         $userid = 'test_user_123';
         $this->entity->setUserid($userid);
-        
+
         $this->assertSame($userid, $this->entity->getUserid());
     }
 
@@ -57,7 +57,7 @@ class MemberOperateRecordTest extends TestCase
 
         $operType = 'login';
         $this->entity->setOperType($operType);
-        
+
         $this->assertSame($operType, $this->entity->getOperType());
     }
 
@@ -73,7 +73,7 @@ class MemberOperateRecordTest extends TestCase
 
         $detailInfo = 'User logged in from mobile';
         $this->entity->setDetailInfo($detailInfo);
-        
+
         $this->assertSame($detailInfo, $this->entity->getDetailInfo());
     }
 
@@ -89,7 +89,7 @@ class MemberOperateRecordTest extends TestCase
 
         $ip = '192.168.1.100';
         $this->entity->setIp($ip);
-        
+
         $this->assertSame($ip, $this->entity->getIp());
     }
 
@@ -103,9 +103,9 @@ class MemberOperateRecordTest extends TestCase
     {
         $this->assertNull($this->entity->getCreateTime());
 
-        $createTime = new \DateTime('2024-01-01 10:00:00');
+        $createTime = new \DateTimeImmutable('2024-01-01 10:00:00');
         $this->entity->setCreateTime($createTime);
-        
+
         $this->assertSame($createTime, $this->entity->getCreateTime());
     }
 
@@ -119,9 +119,9 @@ class MemberOperateRecordTest extends TestCase
     {
         $this->assertNull($this->entity->getUpdateTime());
 
-        $updateTime = new \DateTime('2024-01-01 11:00:00');
+        $updateTime = new \DateTimeImmutable('2024-01-01 11:00:00');
         $this->entity->setUpdateTime($updateTime);
-        
+
         $this->assertSame($updateTime, $this->entity->getUpdateTime());
     }
 
@@ -133,10 +133,10 @@ class MemberOperateRecordTest extends TestCase
 
     public function test_entity_with_all_properties_set(): void
     {
-        $time = new \DateTime('2024-01-01 12:00:00');
-        $createTime = new \DateTime('2024-01-01 10:00:00');
-        $updateTime = new \DateTime('2024-01-01 11:00:00');
-        
+        $time = new \DateTimeImmutable('2024-01-01 12:00:00');
+        $createTime = new \DateTimeImmutable('2024-01-01 10:00:00');
+        $updateTime = new \DateTimeImmutable('2024-01-01 11:00:00');
+
         $this->entity->setTime($time);
         $this->entity->setUserid('user123');
         $this->entity->setOperType('login');
@@ -158,17 +158,17 @@ class MemberOperateRecordTest extends TestCase
     {
         $ipv6 = '2001:db8::1';
         $this->entity->setIp($ipv6);
-        
+
         $this->assertSame($ipv6, $this->entity->getIp());
     }
 
     public function test_operType_with_different_operations(): void
     {
         $operations = ['login', 'logout', 'download', 'upload', 'delete'];
-        
+
         foreach ($operations as $operation) {
             $this->entity->setOperType($operation);
             $this->assertSame($operation, $this->entity->getOperType());
         }
     }
-} 
+}

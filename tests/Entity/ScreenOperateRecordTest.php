@@ -96,7 +96,7 @@ class ScreenOperateRecordTest extends TestCase
     {
         $this->assertNull($this->entity->getCreateTime());
 
-        $createTime = new \DateTime('2024-01-01 10:00:00');
+        $createTime = new \DateTimeImmutable('2024-01-01 10:00:00');
         $this->entity->setCreateTime($createTime);
         
         $this->assertSame($createTime, $this->entity->getCreateTime());
@@ -106,7 +106,7 @@ class ScreenOperateRecordTest extends TestCase
     {
         $this->assertNull($this->entity->getUpdateTime());
 
-        $updateTime = new \DateTime('2024-01-01 11:00:00');
+        $updateTime = new \DateTimeImmutable('2024-01-01 11:00:00');
         $this->entity->setUpdateTime($updateTime);
         
         $this->assertSame($updateTime, $this->entity->getUpdateTime());
@@ -114,9 +114,9 @@ class ScreenOperateRecordTest extends TestCase
 
     public function test_entity_with_all_properties_set(): void
     {
-        $time = new \DateTime('2024-01-01 12:00:00');
-        $createTime = new \DateTime('2024-01-01 10:00:00');
-        $updateTime = new \DateTime('2024-01-01 11:00:00');
+        $time = new \DateTimeImmutable('2024-01-01 12:00:00');
+        $createTime = new \DateTimeImmutable('2024-01-01 10:00:00');
+        $updateTime = new \DateTimeImmutable('2024-01-01 11:00:00');
         
         $this->entity->setTime($time);
         $this->entity->setUserid('user123');

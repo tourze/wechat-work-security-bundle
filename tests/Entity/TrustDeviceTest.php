@@ -27,7 +27,7 @@ class TrustDeviceTest extends TestCase
 
         $type = '1';
         $this->entity->setType($type);
-        
+
         $this->assertSame($type, $this->entity->getType());
     }
 
@@ -43,7 +43,7 @@ class TrustDeviceTest extends TestCase
 
         $deviceCode = 'device_001';
         $this->entity->setDeviceCode($deviceCode);
-        
+
         $this->assertSame($deviceCode, $this->entity->getDeviceCode());
     }
 
@@ -59,7 +59,7 @@ class TrustDeviceTest extends TestCase
 
         $system = 'Windows 11';
         $this->entity->setSystem($system);
-        
+
         $this->assertSame($system, $this->entity->getSystem());
     }
 
@@ -75,7 +75,7 @@ class TrustDeviceTest extends TestCase
 
         $macAddr = '00:11:22:33:44:55';
         $this->entity->setMacAddr($macAddr);
-        
+
         $this->assertSame($macAddr, $this->entity->getMacAddr());
     }
 
@@ -91,7 +91,7 @@ class TrustDeviceTest extends TestCase
 
         $uuid = '12345678-1234-1234-1234-123456789abc';
         $this->entity->setMotherboardUuid($uuid);
-        
+
         $this->assertSame($uuid, $this->entity->getMotherboardUuid());
     }
 
@@ -107,7 +107,7 @@ class TrustDeviceTest extends TestCase
 
         $uuid = '87654321-4321-4321-4321-cba987654321';
         $this->entity->setHarddiskUuid($uuid);
-        
+
         $this->assertSame($uuid, $this->entity->getHarddiskUuid());
     }
 
@@ -123,7 +123,7 @@ class TrustDeviceTest extends TestCase
 
         $domain = 'company.local';
         $this->entity->setDomain($domain);
-        
+
         $this->assertSame($domain, $this->entity->getDomain());
     }
 
@@ -139,7 +139,7 @@ class TrustDeviceTest extends TestCase
 
         $pcName = 'DESKTOP-ABCD123';
         $this->entity->setPcName($pcName);
-        
+
         $this->assertSame($pcName, $this->entity->getPcName());
     }
 
@@ -155,7 +155,7 @@ class TrustDeviceTest extends TestCase
 
         $seqNo = 'C02XY1234567';
         $this->entity->setSeqNo($seqNo);
-        
+
         $this->assertSame($seqNo, $this->entity->getSeqNo());
     }
 
@@ -171,7 +171,7 @@ class TrustDeviceTest extends TestCase
 
         $timestamp = '1640995200';
         $this->entity->setLastLoginTime($timestamp);
-        
+
         $this->assertSame($timestamp, $this->entity->getLastLoginTime());
     }
 
@@ -187,7 +187,7 @@ class TrustDeviceTest extends TestCase
 
         $userid = 'user123';
         $this->entity->setLastLoginUserid($userid);
-        
+
         $this->assertSame($userid, $this->entity->getLastLoginUserid());
     }
 
@@ -203,7 +203,7 @@ class TrustDeviceTest extends TestCase
 
         $timestamp = '1640995200';
         $this->entity->setConfirmTimestamp($timestamp);
-        
+
         $this->assertSame($timestamp, $this->entity->getConfirmTimestamp());
     }
 
@@ -219,7 +219,7 @@ class TrustDeviceTest extends TestCase
 
         $userid = 'admin123';
         $this->entity->setConfirmUserid($userid);
-        
+
         $this->assertSame($userid, $this->entity->getConfirmUserid());
     }
 
@@ -235,7 +235,7 @@ class TrustDeviceTest extends TestCase
 
         $userid = 'admin456';
         $this->entity->setApprovedUserid($userid);
-        
+
         $this->assertSame($userid, $this->entity->getApprovedUserid());
     }
 
@@ -249,9 +249,9 @@ class TrustDeviceTest extends TestCase
     {
         $this->assertNull($this->entity->getCreateTime());
 
-        $createTime = new \DateTime('2024-01-01 10:00:00');
+        $createTime = new \DateTimeImmutable('2024-01-01 10:00:00');
         $this->entity->setCreateTime($createTime);
-        
+
         $this->assertSame($createTime, $this->entity->getCreateTime());
     }
 
@@ -265,9 +265,9 @@ class TrustDeviceTest extends TestCase
     {
         $this->assertNull($this->entity->getUpdateTime());
 
-        $updateTime = new \DateTime('2024-01-01 11:00:00');
+        $updateTime = new \DateTimeImmutable('2024-01-01 11:00:00');
         $this->entity->setUpdateTime($updateTime);
-        
+
         $this->assertSame($updateTime, $this->entity->getUpdateTime());
     }
 
@@ -283,7 +283,7 @@ class TrustDeviceTest extends TestCase
 
         $source = TrustDeviceSourceEnum::ADMIN_IMPORT;
         $this->entity->setSource($source);
-        
+
         $this->assertSame($source, $this->entity->getSource());
     }
 
@@ -305,7 +305,7 @@ class TrustDeviceTest extends TestCase
 
         $status = TrustDeviceStatusEnum::CONFIRMED_AS_TRUSTED_ENTERPRISE_DEVICE;
         $this->entity->setStatus($status);
-        
+
         $this->assertSame($status, $this->entity->getStatus());
     }
 
@@ -323,9 +323,9 @@ class TrustDeviceTest extends TestCase
 
     public function test_entity_with_all_properties_set(): void
     {
-        $createTime = new \DateTime('2024-01-01 10:00:00');
-        $updateTime = new \DateTime('2024-01-01 11:00:00');
-        
+        $createTime = new \DateTimeImmutable('2024-01-01 10:00:00');
+        $updateTime = new \DateTimeImmutable('2024-01-01 11:00:00');
+
         $this->entity->setType('1');
         $this->entity->setDeviceCode('device001');
         $this->entity->setSystem('Windows 11');
@@ -372,7 +372,7 @@ class TrustDeviceTest extends TestCase
             '00-11-22-33-44-55',
             '0011.2233.4455'
         ];
-        
+
         foreach ($formats as $format) {
             $this->entity->setMacAddr($format);
             $this->assertSame($format, $this->entity->getMacAddr());
@@ -382,10 +382,10 @@ class TrustDeviceTest extends TestCase
     public function test_type_with_different_device_types(): void
     {
         $types = ['1', '2', '3'];
-        
+
         foreach ($types as $type) {
             $this->entity->setType($type);
             $this->assertSame($type, $this->entity->getType());
         }
     }
-} 
+}
