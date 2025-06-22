@@ -16,23 +16,23 @@ class FileOperateRecordRepositoryTest extends TestCase
 
     public function test_implements_expected_methods(): void
     {
-        $this->assertTrue(method_exists(FileOperateRecordRepository::class, '__construct'));
-        
+        $this->assertTrue(is_callable([FileOperateRecordRepository::class, '__construct']));
+
         // 验证继承的方法存在
-        $this->assertTrue(method_exists(FileOperateRecordRepository::class, 'find'));
-        $this->assertTrue(method_exists(FileOperateRecordRepository::class, 'findOneBy'));
-        $this->assertTrue(method_exists(FileOperateRecordRepository::class, 'findAll'));
-        $this->assertTrue(method_exists(FileOperateRecordRepository::class, 'findBy'));
+        $this->assertTrue(is_callable([FileOperateRecordRepository::class, 'find']));
+        $this->assertTrue(is_callable([FileOperateRecordRepository::class, 'findOneBy']));
+        $this->assertTrue(is_callable([FileOperateRecordRepository::class, 'findAll']));
+        $this->assertTrue(is_callable([FileOperateRecordRepository::class, 'findBy']));
     }
 
     public function test_constructor_parameter_is_correct(): void
     {
         $reflection = new \ReflectionClass(FileOperateRecordRepository::class);
         $constructor = $reflection->getConstructor();
-        
+
         $this->assertNotNull($constructor);
         $this->assertCount(1, $constructor->getParameters());
-        
+
         $parameter = $constructor->getParameters()[0];
         $this->assertSame('registry', $parameter->getName());
     }
@@ -41,11 +41,11 @@ class FileOperateRecordRepositoryTest extends TestCase
     {
         $reflection = new \ReflectionClass(FileOperateRecordRepository::class);
         $docComment = $reflection->getDocComment();
-        
+
         $this->assertNotFalse($docComment);
         $this->assertStringContainsString('FileOperateRecord|null find(', $docComment);
         $this->assertStringContainsString('FileOperateRecord|null findOneBy(', $docComment);
         $this->assertStringContainsString('FileOperateRecord[]    findAll()', $docComment);
         $this->assertStringContainsString('FileOperateRecord[]    findBy(', $docComment);
     }
-} 
+}

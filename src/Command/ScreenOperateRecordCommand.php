@@ -2,7 +2,7 @@
 
 namespace WechatWorkSecurityBundle\Command;
 
-use Carbon\Carbon;
+use Carbon\CarbonImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -19,10 +19,10 @@ use WechatWorkSecurityBundle\Request\ScreenOperateRecordRequest;
  * @see https://developer.work.weixin.qq.com/document/path/100128
  */
 // #[AsCronTask('* * * * *')]
-#[AsCommand(name: 'wechat-work:screen-operate-record', description: '截屏/录屏管理')]
+#[AsCommand(name: self::NAME, description: '截屏/录屏管理')]
 class ScreenOperateRecordCommand extends Command
 {
-    public const NAME = 'screen-operate-record';
+    public const NAME = 'wechat-work:screen-operate-record';
 
     public function __construct(
         private readonly AgentRepository $agentRepository,
@@ -35,8 +35,8 @@ class ScreenOperateRecordCommand extends Command
     protected function configure(): void
     {
         $this->setDescription('截屏/录屏管理')
-            ->addArgument('startTime', InputArgument::OPTIONAL, 'order start time', Carbon::now()->subDay()->startOfDay()->format('Y-m-d H:i:s'))
-            ->addArgument('endTime', InputArgument::OPTIONAL, 'order end time', Carbon::now()->subDay()->endOfDay()->format('Y-m-d H:i:s'));
+            ->addArgument('startTime', InputArgument::OPTIONAL, 'order start time', CarbonImmutable::now()->subDay()->startOfDay()->format('Y-m-d H:i:s'))
+            ->addArgument('endTime', InputArgument::OPTIONAL, 'order end time', CarbonImmutable::now()->subDay()->endOfDay()->format('Y-m-d H:i:s'));
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -44,8 +44,8 @@ class ScreenOperateRecordCommand extends Command
         $startTimeString = $input->getArgument('startTime');
         $endTimeString = $input->getArgument('endTime');
         // 转换一下
-        $startTime = Carbon::parse($startTimeString);
-        $endTime = Carbon::parse($endTimeString);
+        $startTime = CarbonImmutable::parse($startTimeString);
+        $endTime = CarbonImmutable::parse($endTimeString);
         $daysDifference = $endTime->diffInDays($startTime);
 
         // 判断时间范围是否超过 14 天
@@ -65,7 +65,7 @@ class ScreenOperateRecordCommand extends Command
                 foreach ($result['record_list'] as $record) {
                     $screenOperateRecord = new ScreenOperateRecord();
                     $screenOperateRecord->setSystem($record['system']);
-                    $screenOperateRecord->setTime(Carbon::createFromTimestamp($record['time'], date_default_timezone_get()));
+                    $screenOperateRecord->setTime(CarbonImmutable::createFromTimestamp($record['time'], date_default_timezone_get()));
                     $screenOperateRecord->setUserid($record['userid']);
                     $screenOperateRecord->setScreenShotContent($record['screen_shot_content']);
 

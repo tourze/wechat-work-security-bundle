@@ -5,14 +5,12 @@ namespace WechatWorkSecurityBundle\Entity;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Tourze\DoctrineTimestampBundle\Traits\TimestampableAware;
-use Tourze\EasyAdmin\Attribute\Action\Exportable;
 use WechatWorkSecurityBundle\Enum\ScreenShotTypeEnum;
 use WechatWorkSecurityBundle\Repository\ScreenOperateRecordRepository;
 
 /**
  * @see https://developer.work.weixin.qq.com/document/path/100128
  */
-#[Exportable]
 #[ORM\Entity(repositoryClass: ScreenOperateRecordRepository::class)]
 #[ORM\Table(name: 'wechat_work_screen_operate_record', options: ['comment' => '截屏/录屏管理'])]
 class ScreenOperateRecord implements \Stringable
@@ -23,7 +21,7 @@ class ScreenOperateRecord implements \Stringable
     #[ORM\Column(type: Types::INTEGER, options: ['comment' => 'ID'])]
     private ?int $id = 0;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true, options: ['comment' => '操作时间'])]
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true, options: ['comment' => '操作时间'])]
     private ?\DateTimeInterface $time = null;
 
     #[ORM\Column(length: 60, nullable: true, options: ['comment' => '企业账号id'])]

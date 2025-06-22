@@ -15,9 +15,9 @@ class FileOperateRecordRequest extends ApiRequest
     use AgentAware;
 
     /**
-     * @var int 开始时间
+     * @var string 开始时间
      */
-    private int $startTime;
+    private string $startTime;
 
     /**
      * @var int 结束时间
@@ -37,12 +37,12 @@ class FileOperateRecordRequest extends ApiRequest
     /**
      * @var string cursor
      */
-    private ?string $cursor;
+    private string $cursor;
 
     /**
      * @var int limit
      */
-    private ?int $limit;
+    private int $limit;
 
     public function getRequestPath(): string
     {

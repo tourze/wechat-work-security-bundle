@@ -16,23 +16,23 @@ class ScreenOperateRecordRepositoryTest extends TestCase
 
     public function test_implements_expected_methods(): void
     {
-        $this->assertTrue(method_exists(ScreenOperateRecordRepository::class, '__construct'));
-        
+        $this->assertTrue(is_callable([ScreenOperateRecordRepository::class, '__construct']));
+
         // 验证继承的方法存在
-        $this->assertTrue(method_exists(ScreenOperateRecordRepository::class, 'find'));
-        $this->assertTrue(method_exists(ScreenOperateRecordRepository::class, 'findOneBy'));
-        $this->assertTrue(method_exists(ScreenOperateRecordRepository::class, 'findAll'));
-        $this->assertTrue(method_exists(ScreenOperateRecordRepository::class, 'findBy'));
+        $this->assertTrue(is_callable([ScreenOperateRecordRepository::class, 'find']));
+        $this->assertTrue(is_callable([ScreenOperateRecordRepository::class, 'findOneBy']));
+        $this->assertTrue(is_callable([ScreenOperateRecordRepository::class, 'findAll']));
+        $this->assertTrue(is_callable([ScreenOperateRecordRepository::class, 'findBy']));
     }
 
     public function test_constructor_parameter_is_correct(): void
     {
         $reflection = new \ReflectionClass(ScreenOperateRecordRepository::class);
         $constructor = $reflection->getConstructor();
-        
+
         $this->assertNotNull($constructor);
         $this->assertCount(1, $constructor->getParameters());
-        
+
         $parameter = $constructor->getParameters()[0];
         $this->assertSame('registry', $parameter->getName());
     }
@@ -41,11 +41,11 @@ class ScreenOperateRecordRepositoryTest extends TestCase
     {
         $reflection = new \ReflectionClass(ScreenOperateRecordRepository::class);
         $docComment = $reflection->getDocComment();
-        
+
         $this->assertNotFalse($docComment);
         $this->assertStringContainsString('ScreenOperateRecord|null find(', $docComment);
         $this->assertStringContainsString('ScreenOperateRecord|null findOneBy(', $docComment);
         $this->assertStringContainsString('ScreenOperateRecord[]    findAll()', $docComment);
         $this->assertStringContainsString('ScreenOperateRecord[]    findBy(', $docComment);
     }
-} 
+}

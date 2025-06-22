@@ -10,7 +10,7 @@ class ScreenShotTypeEnumTest extends TestCase
     public function test_enum_cases_exist(): void
     {
         $cases = ScreenShotTypeEnum::cases();
-        
+
         $this->assertCount(6, $cases);
         $this->assertContains(ScreenShotTypeEnum::CHAT, $cases);
         $this->assertContains(ScreenShotTypeEnum::CONTACTS, $cases);
@@ -72,7 +72,7 @@ class ScreenShotTypeEnumTest extends TestCase
     public function test_implements_required_interfaces(): void
     {
         $enum = ScreenShotTypeEnum::CHAT;
-        
+
         $this->assertInstanceOf(\Tourze\EnumExtra\Labelable::class, $enum);
         $this->assertInstanceOf(\Tourze\EnumExtra\Itemable::class, $enum);
         $this->assertInstanceOf(\Tourze\EnumExtra\Selectable::class, $enum);
@@ -80,20 +80,20 @@ class ScreenShotTypeEnumTest extends TestCase
 
     public function test_trait_methods_are_available(): void
     {
-        $this->assertTrue(method_exists(ScreenShotTypeEnum::class, 'genOptions'));
-        $this->assertTrue(method_exists(ScreenShotTypeEnum::class, 'toSelectItem'));
-        $this->assertTrue(method_exists(ScreenShotTypeEnum::class, 'toArray'));
+        $this->assertTrue(is_callable([ScreenShotTypeEnum::class, 'genOptions']));
+        $this->assertTrue(is_callable([ScreenShotTypeEnum::CHAT, 'toSelectItem']));
+        $this->assertTrue(is_callable([ScreenShotTypeEnum::CHAT, 'toArray']));
     }
 
     public function test_toSelectItem_returns_correct_structure(): void
     {
         $item = ScreenShotTypeEnum::CHAT->toSelectItem();
-        
+
         $this->assertArrayHasKey('label', $item);
         $this->assertArrayHasKey('text', $item);
         $this->assertArrayHasKey('value', $item);
         $this->assertArrayHasKey('name', $item);
-        
+
         $this->assertSame('聊天', $item['label']);
         $this->assertSame('聊天', $item['text']);
         $this->assertSame(1, $item['value']);
@@ -104,10 +104,10 @@ class ScreenShotTypeEnumTest extends TestCase
     {
         $options = ScreenShotTypeEnum::genOptions();
         $this->assertCount(6, $options);
-        
+
         foreach ($options as $option) {
             $this->assertArrayHasKey('label', $option);
             $this->assertArrayHasKey('value', $option);
         }
     }
-} 
+}

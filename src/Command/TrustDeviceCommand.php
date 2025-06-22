@@ -18,10 +18,10 @@ use WechatWorkSecurityBundle\Request\TrustDeviceRequest;
  * @see https://developer.work.weixin.qq.com/document/path/98920
  */
 // #[AsCronTask('* * * * *')]
-#[AsCommand(name: 'wechat-work:trust-device', description: '获取设备信息')]
+#[AsCommand(name: self::NAME, description: '获取设备信息')]
 class TrustDeviceCommand extends Command
 {
-    public const NAME = 'trust-device';
+    public const NAME = 'wechat-work:trust-device';
 
     public function __construct(
         private readonly AgentRepository $agentRepository,
@@ -44,7 +44,7 @@ class TrustDeviceCommand extends Command
                 if (isset($request['errcode']) && 0 == $request['errcode']) {
                     foreach ($request['device_list'] as $device) {
                         $trustDevice = new TrustDevice();
-                        $trustDevice->setType($item);
+                        $trustDevice->setType((string)$item);
                         $trustDevice->setDeviceCode($device['device_code']);
                         $trustDevice->setSystem($device['system']);
                         $trustDevice->setSeqNo($device['seq_no']);

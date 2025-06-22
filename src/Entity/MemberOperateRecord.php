@@ -5,13 +5,12 @@ namespace WechatWorkSecurityBundle\Entity;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Tourze\DoctrineTimestampBundle\Traits\TimestampableAware;
-use Tourze\EasyAdmin\Attribute\Action\Exportable;
 use WechatWorkSecurityBundle\Repository\MemberOperateRecordRepository;
 
 /**
  * @see https://developer.work.weixin.qq.com/document/path/100178
  */
-#[Exportable]
+
 #[ORM\Entity(repositoryClass: MemberOperateRecordRepository::class)]
 #[ORM\Table(name: 'wechat_work_member_operate_record', options: ['comment' => '获取成员操作记录'])]
 class MemberOperateRecord implements \Stringable
@@ -22,7 +21,7 @@ class MemberOperateRecord implements \Stringable
     #[ORM\Column(type: Types::INTEGER, options: ['comment' => 'ID'])]
     private ?int $id = 0;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true, options: ['comment' => '操作时间'])]
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true, options: ['comment' => '操作时间'])]
     private ?\DateTimeInterface $time = null;
 
     #[ORM\Column(length: 60, nullable: true, options: ['comment' => '操作者userid'])]
@@ -34,7 +33,7 @@ class MemberOperateRecord implements \Stringable
     #[ORM\Column(length: 60, nullable: true, options: ['comment' => '相关数据'])]
     private ?string $detailInfo = null;
 
-    #[ORM\Column(length: 60, nullable: true, options: ['comment' => '	操作者ip'])]
+    #[ORM\Column(length: 60, nullable: true, options: ['comment' => '操作者ip'])]
     private ?string $ip = null;
 
     public function getId(): ?int

@@ -2,7 +2,7 @@
 
 namespace WechatWorkSecurityBundle\Command;
 
-use Carbon\Carbon;
+use Carbon\CarbonImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -18,10 +18,10 @@ use WechatWorkSecurityBundle\Request\MemberOperateRecordRequest;
  * @see https://developer.work.weixin.qq.com/document/path/100178
  */
 // #[AsCronTask('* * * * *')]
-#[AsCommand(name: 'wechat-work:member-operate-record', description: '获取成员操作记录')]
+#[AsCommand(name: self::NAME, description: '获取成员操作记录')]
 class MemberOperateRecordCommand extends Command
 {
-    public const NAME = 'member-operate-record';
+    public const NAME = 'wechat-work:member-operate-record';
 
     public function __construct(
         private readonly AgentRepository $agentRepository,
@@ -34,8 +34,8 @@ class MemberOperateRecordCommand extends Command
     protected function configure(): void
     {
         $this->setDescription('文件防泄漏')
-            ->addArgument('startTime', InputArgument::OPTIONAL, 'order start time', Carbon::now()->subDay()->startOfDay()->format('Y-m-d H:i:s'))
-            ->addArgument('endTime', InputArgument::OPTIONAL, 'order end time', Carbon::now()->subDay()->endOfDay()->format('Y-m-d H:i:s'));
+            ->addArgument('startTime', InputArgument::OPTIONAL, 'order start time', CarbonImmutable::now()->subDay()->startOfDay()->format('Y-m-d H:i:s'))
+            ->addArgument('endTime', InputArgument::OPTIONAL, 'order end time', CarbonImmutable::now()->subDay()->endOfDay()->format('Y-m-d H:i:s'));
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -43,11 +43,11 @@ class MemberOperateRecordCommand extends Command
         $startTimeString = $input->getArgument('startTime');
         $endTimeString = $input->getArgument('endTime');
         // 转换一下
-        $startTime = Carbon::parse($startTimeString);
-        $endTime = Carbon::parse($endTimeString);
+        $startTime = CarbonImmutable::parse($startTimeString);
+        $endTime = CarbonImmutable::parse($endTimeString);
         // 获取当前时间
-        $currentTime = Carbon::now();
-        $minStartTime = Carbon::now()->subDays(180);
+        $currentTime = CarbonImmutable::now();
+        $minStartTime = CarbonImmutable::now()->subDays(180);
         if ($startTime < $minStartTime) {
             $output->writeln('开始时间不能早于当前时间的 180 天前');
 
@@ -84,7 +84,7 @@ class MemberOperateRecordCommand extends Command
                 foreach ($result['record_list'] as $record) {
                     $memberOperateRecord = new MemberOperateRecord();
                     $memberOperateRecord->setOperType($record['oper_type']);
-                    $memberOperateRecord->setTime(Carbon::createFromTimestamp($record['time'], date_default_timezone_get()));
+                    $memberOperateRecord->setTime(CarbonImmutable::createFromTimestamp($record['time'], date_default_timezone_get()));
                     $memberOperateRecord->setDetailInfo($record['detail_info']);
                     $memberOperateRecord->setIp($record['ip']);
                     $memberOperateRecord->setUserid($record['userid']);

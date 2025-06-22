@@ -5,14 +5,13 @@ namespace WechatWorkSecurityBundle\Entity;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Tourze\DoctrineTimestampBundle\Traits\TimestampableAware;
-use Tourze\EasyAdmin\Attribute\Action\Exportable;
 use WechatWorkSecurityBundle\Enum\FileOperateDeviceCodeEnum;
 use WechatWorkSecurityBundle\Repository\FileOperateRecordRepository;
 
 /**
  * @see https://developer.work.weixin.qq.com/document/path/98079
  */
-#[Exportable]
+
 #[ORM\Entity(repositoryClass: FileOperateRecordRepository::class)]
 #[ORM\Table(name: 'wechat_work_file_operate_record', options: ['comment' => '文件防泄漏'])]
 class FileOperateRecord implements \Stringable
@@ -23,7 +22,7 @@ class FileOperateRecord implements \Stringable
     #[ORM\Column(type: Types::INTEGER, options: ['comment' => 'ID'])]
     private ?int $id = 0;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true, options: ['comment' => '操作时间'])]
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true, options: ['comment' => '操作时间'])]
     private ?\DateTimeInterface $time = null;
 
     #[ORM\Column(length: 60, nullable: true, options: ['comment' => '企业账号id'])]

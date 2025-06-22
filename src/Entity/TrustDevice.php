@@ -5,7 +5,6 @@ namespace WechatWorkSecurityBundle\Entity;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Tourze\DoctrineTimestampBundle\Traits\TimestampableAware;
-use Tourze\EasyAdmin\Attribute\Action\Exportable;
 use WechatWorkSecurityBundle\Enum\TrustDeviceSourceEnum;
 use WechatWorkSecurityBundle\Enum\TrustDeviceStatusEnum;
 use WechatWorkSecurityBundle\Repository\TrustDeviceRepository;
@@ -13,7 +12,6 @@ use WechatWorkSecurityBundle\Repository\TrustDeviceRepository;
 /**
  * @see https://developer.work.weixin.qq.com/document/path/98920
  */
-#[Exportable]
 #[ORM\Entity(repositoryClass: TrustDeviceRepository::class)]
 #[ORM\Table(name: 'wechat_work_trust_device', options: ['comment' => '获取设备信息'])]
 class TrustDevice implements \Stringable

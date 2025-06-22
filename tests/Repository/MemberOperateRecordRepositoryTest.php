@@ -16,23 +16,23 @@ class MemberOperateRecordRepositoryTest extends TestCase
 
     public function test_implements_expected_methods(): void
     {
-        $this->assertTrue(method_exists(MemberOperateRecordRepository::class, '__construct'));
-        
+        $this->assertTrue(is_callable([MemberOperateRecordRepository::class, '__construct']));
+
         // 验证继承的方法存在
-        $this->assertTrue(method_exists(MemberOperateRecordRepository::class, 'find'));
-        $this->assertTrue(method_exists(MemberOperateRecordRepository::class, 'findOneBy'));
-        $this->assertTrue(method_exists(MemberOperateRecordRepository::class, 'findAll'));
-        $this->assertTrue(method_exists(MemberOperateRecordRepository::class, 'findBy'));
+        $this->assertTrue(is_callable([MemberOperateRecordRepository::class, 'find']));
+        $this->assertTrue(is_callable([MemberOperateRecordRepository::class, 'findOneBy']));
+        $this->assertTrue(is_callable([MemberOperateRecordRepository::class, 'findAll']));
+        $this->assertTrue(is_callable([MemberOperateRecordRepository::class, 'findBy']));
     }
 
     public function test_constructor_parameter_is_correct(): void
     {
         $reflection = new \ReflectionClass(MemberOperateRecordRepository::class);
         $constructor = $reflection->getConstructor();
-        
+
         $this->assertNotNull($constructor);
         $this->assertCount(1, $constructor->getParameters());
-        
+
         $parameter = $constructor->getParameters()[0];
         $this->assertSame('registry', $parameter->getName());
     }
@@ -41,11 +41,11 @@ class MemberOperateRecordRepositoryTest extends TestCase
     {
         $reflection = new \ReflectionClass(MemberOperateRecordRepository::class);
         $docComment = $reflection->getDocComment();
-        
+
         $this->assertNotFalse($docComment);
         $this->assertStringContainsString('MemberOperateRecord|null find(', $docComment);
         $this->assertStringContainsString('MemberOperateRecord|null findOneBy(', $docComment);
         $this->assertStringContainsString('MemberOperateRecord[]    findAll()', $docComment);
         $this->assertStringContainsString('MemberOperateRecord[]    findBy(', $docComment);
     }
-} 
+}

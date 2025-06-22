@@ -10,7 +10,7 @@ class TrustDeviceSourceEnumTest extends TestCase
     public function test_enum_cases_exist(): void
     {
         $cases = TrustDeviceSourceEnum::cases();
-        
+
         $this->assertCount(4, $cases);
         $this->assertContains(TrustDeviceSourceEnum::UNKNOWN, $cases);
         $this->assertContains(TrustDeviceSourceEnum::MEMBER_CONFIRMATION, $cases);
@@ -64,7 +64,7 @@ class TrustDeviceSourceEnumTest extends TestCase
     public function test_implements_required_interfaces(): void
     {
         $enum = TrustDeviceSourceEnum::UNKNOWN;
-        
+
         $this->assertInstanceOf(\Tourze\EnumExtra\Labelable::class, $enum);
         $this->assertInstanceOf(\Tourze\EnumExtra\Itemable::class, $enum);
         $this->assertInstanceOf(\Tourze\EnumExtra\Selectable::class, $enum);
@@ -72,20 +72,20 @@ class TrustDeviceSourceEnumTest extends TestCase
 
     public function test_trait_methods_are_available(): void
     {
-        $this->assertTrue(method_exists(TrustDeviceSourceEnum::class, 'genOptions'));
-        $this->assertTrue(method_exists(TrustDeviceSourceEnum::class, 'toSelectItem'));
-        $this->assertTrue(method_exists(TrustDeviceSourceEnum::class, 'toArray'));
+        $this->assertTrue(is_callable([TrustDeviceSourceEnum::class, 'genOptions']));
+        $this->assertTrue(is_callable([TrustDeviceSourceEnum::UNKNOWN, 'toSelectItem']));
+        $this->assertTrue(is_callable([TrustDeviceSourceEnum::UNKNOWN, 'toArray']));
     }
 
     public function test_toSelectItem_returns_correct_structure(): void
     {
         $item = TrustDeviceSourceEnum::UNKNOWN->toSelectItem();
-        
+
         $this->assertArrayHasKey('label', $item);
         $this->assertArrayHasKey('text', $item);
         $this->assertArrayHasKey('value', $item);
         $this->assertArrayHasKey('name', $item);
-        
+
         $this->assertSame('未知', $item['label']);
         $this->assertSame('未知', $item['text']);
         $this->assertSame(1, $item['value']);
@@ -96,10 +96,10 @@ class TrustDeviceSourceEnumTest extends TestCase
     {
         $options = TrustDeviceSourceEnum::genOptions();
         $this->assertCount(4, $options);
-        
+
         foreach ($options as $option) {
             $this->assertArrayHasKey('label', $option);
             $this->assertArrayHasKey('value', $option);
         }
     }
-} 
+}

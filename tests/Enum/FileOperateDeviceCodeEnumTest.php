@@ -10,7 +10,7 @@ class FileOperateDeviceCodeEnumTest extends TestCase
     public function test_enum_cases_exist(): void
     {
         $cases = FileOperateDeviceCodeEnum::cases();
-        
+
         $this->assertCount(2, $cases);
         $this->assertContains(FileOperateDeviceCodeEnum::FIRM, $cases);
         $this->assertContains(FileOperateDeviceCodeEnum::PERSONAGE, $cases);
@@ -56,7 +56,7 @@ class FileOperateDeviceCodeEnumTest extends TestCase
     public function test_implements_required_interfaces(): void
     {
         $enum = FileOperateDeviceCodeEnum::FIRM;
-        
+
         $this->assertInstanceOf(\Tourze\EnumExtra\Labelable::class, $enum);
         $this->assertInstanceOf(\Tourze\EnumExtra\Itemable::class, $enum);
         $this->assertInstanceOf(\Tourze\EnumExtra\Selectable::class, $enum);
@@ -64,20 +64,20 @@ class FileOperateDeviceCodeEnumTest extends TestCase
 
     public function test_trait_methods_are_available(): void
     {
-        $this->assertTrue(method_exists(FileOperateDeviceCodeEnum::class, 'genOptions'));
-        $this->assertTrue(method_exists(FileOperateDeviceCodeEnum::class, 'toSelectItem'));
-        $this->assertTrue(method_exists(FileOperateDeviceCodeEnum::class, 'toArray'));
+        $this->assertTrue(is_callable([FileOperateDeviceCodeEnum::class, 'genOptions']));
+        $this->assertTrue(is_callable([FileOperateDeviceCodeEnum::FIRM, 'toSelectItem']));
+        $this->assertTrue(is_callable([FileOperateDeviceCodeEnum::FIRM, 'toArray']));
     }
 
     public function test_toSelectItem_returns_correct_structure(): void
     {
         $item = FileOperateDeviceCodeEnum::FIRM->toSelectItem();
-        
+
         $this->assertArrayHasKey('label', $item);
         $this->assertArrayHasKey('text', $item);
         $this->assertArrayHasKey('value', $item);
         $this->assertArrayHasKey('name', $item);
-        
+
         $this->assertSame('企业可信设备', $item['label']);
         $this->assertSame('企业可信设备', $item['text']);
         $this->assertSame(1, $item['value']);
@@ -87,10 +87,10 @@ class FileOperateDeviceCodeEnumTest extends TestCase
     public function test_toArray_returns_correct_structure(): void
     {
         $array = FileOperateDeviceCodeEnum::FIRM->toArray();
-        
+
         $this->assertArrayHasKey('value', $array);
         $this->assertArrayHasKey('label', $array);
-        
+
         $this->assertSame(1, $array['value']);
         $this->assertSame('企业可信设备', $array['label']);
     }
@@ -99,10 +99,10 @@ class FileOperateDeviceCodeEnumTest extends TestCase
     {
         $options = FileOperateDeviceCodeEnum::genOptions();
         $this->assertCount(2, $options);
-        
+
         foreach ($options as $option) {
             $this->assertArrayHasKey('label', $option);
             $this->assertArrayHasKey('value', $option);
         }
     }
-} 
+}

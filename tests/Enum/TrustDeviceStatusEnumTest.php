@@ -10,7 +10,7 @@ class TrustDeviceStatusEnumTest extends TestCase
     public function test_enum_cases_exist(): void
     {
         $cases = TrustDeviceStatusEnum::cases();
-        
+
         $this->assertCount(6, $cases);
         $this->assertContains(TrustDeviceStatusEnum::IMPORTED_BUT_NOT_LOGGED_IN, $cases);
         $this->assertContains(TrustDeviceStatusEnum::PENDING_INVITATION, $cases);
@@ -72,7 +72,7 @@ class TrustDeviceStatusEnumTest extends TestCase
     public function test_implements_required_interfaces(): void
     {
         $enum = TrustDeviceStatusEnum::IMPORTED_BUT_NOT_LOGGED_IN;
-        
+
         $this->assertInstanceOf(\Tourze\EnumExtra\Labelable::class, $enum);
         $this->assertInstanceOf(\Tourze\EnumExtra\Itemable::class, $enum);
         $this->assertInstanceOf(\Tourze\EnumExtra\Selectable::class, $enum);
@@ -80,20 +80,20 @@ class TrustDeviceStatusEnumTest extends TestCase
 
     public function test_trait_methods_are_available(): void
     {
-        $this->assertTrue(method_exists(TrustDeviceStatusEnum::class, 'genOptions'));
-        $this->assertTrue(method_exists(TrustDeviceStatusEnum::class, 'toSelectItem'));
-        $this->assertTrue(method_exists(TrustDeviceStatusEnum::class, 'toArray'));
+        $this->assertTrue(is_callable([TrustDeviceStatusEnum::class, 'genOptions']));
+        $this->assertTrue(is_callable([TrustDeviceStatusEnum::IMPORTED_BUT_NOT_LOGGED_IN, 'toSelectItem']));
+        $this->assertTrue(is_callable([TrustDeviceStatusEnum::IMPORTED_BUT_NOT_LOGGED_IN, 'toArray']));
     }
 
     public function test_toSelectItem_returns_correct_structure(): void
     {
         $item = TrustDeviceStatusEnum::IMPORTED_BUT_NOT_LOGGED_IN->toSelectItem();
-        
+
         $this->assertArrayHasKey('label', $item);
         $this->assertArrayHasKey('text', $item);
         $this->assertArrayHasKey('value', $item);
         $this->assertArrayHasKey('name', $item);
-        
+
         $this->assertSame('已导入未登录', $item['label']);
         $this->assertSame('已导入未登录', $item['text']);
         $this->assertSame(1, $item['value']);
@@ -104,10 +104,10 @@ class TrustDeviceStatusEnumTest extends TestCase
     {
         $options = TrustDeviceStatusEnum::genOptions();
         $this->assertCount(6, $options);
-        
+
         foreach ($options as $option) {
             $this->assertArrayHasKey('label', $option);
             $this->assertArrayHasKey('value', $option);
         }
     }
-} 
+}

@@ -2,7 +2,7 @@
 
 namespace WechatWorkSecurityBundle\Command;
 
-use Carbon\Carbon;
+use Carbon\CarbonImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -19,10 +19,10 @@ use WechatWorkSecurityBundle\Request\FileOperateRecordRequest;
  * @see https://developer.work.weixin.qq.com/document/path/98079
  */
 // #[AsCronTask('* * * * *')]
-#[AsCommand(name: 'wechat-work:file-operate-record', description: '文件防泄漏')]
+#[AsCommand(name: self::NAME, description: '文件防泄漏')]
 class FileOperateRecordCommand extends Command
 {
-    public const NAME = 'file-operate-record';
+    public const NAME = 'wechat-work:file-operate-record';
 
     public function __construct(
         private readonly AgentRepository $agentRepository,
@@ -35,8 +35,8 @@ class FileOperateRecordCommand extends Command
     protected function configure(): void
     {
         $this->setDescription('文件防泄漏')
-            ->addArgument('startTime', InputArgument::OPTIONAL, 'order start time', Carbon::now()->subDay()->startOfDay()->format('Y-m-d H:i:s'))
-            ->addArgument('endTime', InputArgument::OPTIONAL, 'order end time', Carbon::now()->subDay()->endOfDay()->format('Y-m-d H:i:s'));
+            ->addArgument('startTime', InputArgument::OPTIONAL, 'order start time', CarbonImmutable::now()->subDay()->startOfDay()->format('Y-m-d H:i:s'))
+            ->addArgument('endTime', InputArgument::OPTIONAL, 'order end time', CarbonImmutable::now()->subDay()->endOfDay()->format('Y-m-d H:i:s'));
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -44,8 +44,8 @@ class FileOperateRecordCommand extends Command
         $startTimeString = $input->getArgument('startTime');
         $endTimeString = $input->getArgument('endTime');
 
-        $startTime = Carbon::parse($startTimeString);
-        $endTime = Carbon::parse($endTimeString);
+        $startTime = CarbonImmutable::parse($startTimeString);
+        $endTime = CarbonImmutable::parse($endTimeString);
         $daysDifference = $endTime->diffInDays($startTime);
 
         // 判断时间范围是否超过 14 天
@@ -58,14 +58,14 @@ class FileOperateRecordCommand extends Command
         foreach ($this->agentRepository->findAll() as $agent) {
             $request = new FileOperateRecordRequest();
             $request->setAgent($agent);
-            $request->setStartTime(strtotime($startTime));
+            $request->setStartTime((string)strtotime($startTime));
             $request->setEndTime(strtotime($endTime));
             $result = $this->workService->request($request);
 
             if (isset($result['errcode']) && 0 == $result['errcode']) {
                 foreach ($result['record_list'] as $record) {
                     $fileOperateRecord = new FileOperateRecord();
-                    $fileOperateRecord->setTime(Carbon::createFromTimestamp($record['time'], date_default_timezone_get()));
+                    $fileOperateRecord->setTime(CarbonImmutable::createFromTimestamp($record['time'], date_default_timezone_get()));
                     $fileOperateRecord->setUserid($record['user_id']);
                     $fileOperateRecord->setOperation($record['operation']);
                     $fileOperateRecord->setFileInfo($record['file_info']);
