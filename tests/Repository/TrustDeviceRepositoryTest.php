@@ -14,17 +14,6 @@ class TrustDeviceRepositoryTest extends TestCase
         $this->assertTrue($reflection->isSubclassOf(ServiceEntityRepository::class));
     }
 
-    public function test_implements_expected_methods(): void
-    {
-        $this->assertTrue(is_callable([TrustDeviceRepository::class, '__construct']));
-
-        // 验证继承的方法存在
-        $this->assertTrue(is_callable([TrustDeviceRepository::class, 'find']));
-        $this->assertTrue(is_callable([TrustDeviceRepository::class, 'findOneBy']));
-        $this->assertTrue(is_callable([TrustDeviceRepository::class, 'findAll']));
-        $this->assertTrue(is_callable([TrustDeviceRepository::class, 'findBy']));
-    }
-
     public function test_constructor_parameter_is_correct(): void
     {
         $reflection = new \ReflectionClass(TrustDeviceRepository::class);

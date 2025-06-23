@@ -72,9 +72,24 @@ class TrustDeviceSourceEnumTest extends TestCase
 
     public function test_trait_methods_are_available(): void
     {
-        $this->assertTrue(is_callable([TrustDeviceSourceEnum::class, 'genOptions']));
-        $this->assertTrue(is_callable([TrustDeviceSourceEnum::UNKNOWN, 'toSelectItem']));
-        $this->assertTrue(is_callable([TrustDeviceSourceEnum::UNKNOWN, 'toArray']));
+        // 验证静态方法 genOptions 存在并返回预期的结构
+        $options = TrustDeviceSourceEnum::genOptions();
+        $this->assertCount(4, $options);
+        $this->assertArrayHasKey(0, $options);
+        $this->assertArrayHasKey(3, $options);
+
+        // 验证实例方法 toSelectItem 存在并返回正确的键
+        $item = TrustDeviceSourceEnum::UNKNOWN->toSelectItem();
+        $this->assertArrayHasKey('label', $item);
+        $this->assertArrayHasKey('text', $item);
+        $this->assertArrayHasKey('value', $item);
+        $this->assertArrayHasKey('name', $item);
+
+        // 验证实例方法 toArray 存在并返回正确的键
+        $array = TrustDeviceSourceEnum::UNKNOWN->toArray();
+        $this->assertArrayHasKey('value', $array);
+        $this->assertArrayHasKey('label', $array);
+        $this->assertCount(2, $array);
     }
 
     public function test_toSelectItem_returns_correct_structure(): void
@@ -98,6 +113,7 @@ class TrustDeviceSourceEnumTest extends TestCase
         $this->assertCount(4, $options);
 
         foreach ($options as $option) {
+            $this->assertIsArray($option);
             $this->assertArrayHasKey('label', $option);
             $this->assertArrayHasKey('value', $option);
         }
