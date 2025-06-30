@@ -18,7 +18,7 @@ use WechatWorkSecurityBundle\Request\FileOperateRecordRequest;
 /**
  * @see https://developer.work.weixin.qq.com/document/path/98079
  */
-// #[AsCronTask('* * * * *')]
+// #[AsCronTask(expression: '* * * * *')]
 #[AsCommand(name: self::NAME, description: '文件防泄漏')]
 class FileOperateRecordCommand extends Command
 {
@@ -46,7 +46,14 @@ class FileOperateRecordCommand extends Command
 
         $startTime = CarbonImmutable::parse($startTimeString);
         $endTime = CarbonImmutable::parse($endTimeString);
-        $daysDifference = $endTime->diffInDays($startTime);
+        
+        // 确保结束时间在开始时间之后
+        if ($endTime <= $startTime) {
+            $output->writeln('结束时间必须大于开始时间');
+            return Command::FAILURE;
+        }
+        
+        $daysDifference = $startTime->diffInDays($endTime);
 
         // 判断时间范围是否超过 14 天
         if ($daysDifference > 14) {

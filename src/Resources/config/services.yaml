@@ -8,3 +8,5 @@ services:
     resource: '../../Command/'
   WechatWorkSecurityBundle\Repository\:
     resource: '../../Repository/'
+  WechatWorkSecurityBundle\Request\:
+    resource: '../../Request/'

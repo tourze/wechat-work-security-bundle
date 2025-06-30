@@ -17,7 +17,7 @@ use WechatWorkSecurityBundle\Request\MemberOperateRecordRequest;
 /**
  * @see https://developer.work.weixin.qq.com/document/path/100178
  */
-// #[AsCronTask('* * * * *')]
+// #[AsCronTask(expression: '* * * * *')]
 #[AsCommand(name: self::NAME, description: '获取成员操作记录')]
 class MemberOperateRecordCommand extends Command
 {
@@ -68,7 +68,7 @@ class MemberOperateRecordCommand extends Command
         }
 
         // 检查开始时间和结束时间之间的跨度是否超过 7 天
-        $daysDifference = $endTime->diffInDays($startTime);
+        $daysDifference = $startTime->diffInDays($endTime);
         if ($daysDifference > 7) {
             $output->writeln('开始时间和结束时间之间的跨度不能超过 7 天');
 

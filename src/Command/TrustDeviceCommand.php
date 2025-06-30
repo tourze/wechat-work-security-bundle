@@ -17,7 +17,7 @@ use WechatWorkSecurityBundle\Request\TrustDeviceRequest;
 /**
  * @see https://developer.work.weixin.qq.com/document/path/98920
  */
-// #[AsCronTask('* * * * *')]
+// #[AsCronTask(expression: '* * * * *')]
 #[AsCommand(name: self::NAME, description: '获取设备信息')]
 class TrustDeviceCommand extends Command
 {
