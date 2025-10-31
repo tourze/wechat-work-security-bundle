@@ -1,9 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace WechatWorkSecurityBundle\Entity;
 
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 use Tourze\DoctrineTimestampBundle\Traits\TimestampableAware;
 use WechatWorkSecurityBundle\Enum\ScreenShotTypeEnum;
 use WechatWorkSecurityBundle\Repository\ScreenOperateRecordRepository;
@@ -16,30 +19,37 @@ use WechatWorkSecurityBundle\Repository\ScreenOperateRecordRepository;
 class ScreenOperateRecord implements \Stringable
 {
     use TimestampableAware;
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: Types::INTEGER, options: ['comment' => 'ID'])]
-    private ?int $id = 0;
+    private int $id = 0;
 
+    #[Assert\DateTime]
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true, options: ['comment' => '操作时间'])]
     private ?\DateTimeInterface $time = null;
 
+    #[Assert\Length(max: 60)]
     #[ORM\Column(length: 60, nullable: true, options: ['comment' => '企业账号id'])]
     private ?string $userid = null;
 
-    #[ORM\Column(length: 60, nullable: true, options: ['comment' => '企业用户部门id'])]
+    #[Assert\GreaterThan(value: 0)]
+    #[ORM\Column(type: Types::INTEGER, nullable: true, options: ['comment' => '企业用户部门id'])]
     private ?int $departmentId = null;
 
+    #[Assert\Choice(callback: [ScreenShotTypeEnum::class, 'cases'])]
     #[ORM\Column(length: 20, nullable: false, enumType: ScreenShotTypeEnum::class, options: ['comment' => '截屏内容类型'])]
     private ?ScreenShotTypeEnum $screenShotType = ScreenShotTypeEnum::CHAT;
 
+    #[Assert\Length(max: 60)]
     #[ORM\Column(length: 60, nullable: true, options: ['comment' => '截屏内容'])]
     private ?string $screenShotContent = null;
 
+    #[Assert\Length(max: 60)]
     #[ORM\Column(length: 60, nullable: true, options: ['comment' => '企业用户的操作系统'])]
     private ?string $system = null;
 
-    public function getId(): ?int
+    public function getId(): int
     {
         return $this->id;
     }
@@ -103,6 +113,7 @@ class ScreenOperateRecord implements \Stringable
     {
         $this->time = $time;
     }
+
     public function __toString(): string
     {
         return (string) $this->getId();

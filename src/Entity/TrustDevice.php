@@ -1,9 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace WechatWorkSecurityBundle\Entity;
 
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 use Tourze\DoctrineTimestampBundle\Traits\TimestampableAware;
 use WechatWorkSecurityBundle\Enum\TrustDeviceSourceEnum;
 use WechatWorkSecurityBundle\Enum\TrustDeviceStatusEnum;
@@ -17,60 +20,77 @@ use WechatWorkSecurityBundle\Repository\TrustDeviceRepository;
 class TrustDevice implements \Stringable
 {
     use TimestampableAware;
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: Types::INTEGER, options: ['comment' => 'ID'])]
-    private ?int $id = 0;
+    private int $id = 0;
 
+    #[Assert\Length(max: 60)]
     #[ORM\Column(length: 60, nullable: true, options: ['comment' => '查询设备类型'])]
     private ?string $type = null;
 
+    #[Assert\Length(max: 60)]
     #[ORM\Column(length: 60, nullable: true, options: ['comment' => '设备编码'])]
     private ?string $deviceCode = null;
 
+    #[Assert\Length(max: 60)]
     #[ORM\Column(length: 60, nullable: true, options: ['comment' => '系统'])]
     private ?string $system = null;
 
+    #[Assert\Length(max: 60)]
     #[ORM\Column(length: 60, nullable: true, options: ['comment' => '设备MAC地址'])]
     private ?string $macAddr = null;
 
+    #[Assert\Length(max: 60)]
     #[ORM\Column(length: 60, nullable: true, options: ['comment' => '主板UUID'])]
     private ?string $motherboardUuid = null;
 
+    #[Assert\Length(max: 60)]
     #[ORM\Column(length: 60, nullable: true, options: ['comment' => '硬盘UUID'])]
     private ?string $harddiskUuid = null;
 
+    #[Assert\Length(max: 60)]
     #[ORM\Column(length: 60, nullable: true, options: ['comment' => 'Windows域'])]
     private ?string $domain = null;
 
+    #[Assert\Length(max: 60)]
     #[ORM\Column(length: 60, nullable: true, options: ['comment' => '计算机名'])]
     private ?string $pcName = null;
 
+    #[Assert\Length(max: 60)]
     #[ORM\Column(length: 60, nullable: true, options: ['comment' => 'Mac序列号'])]
     private ?string $seqNo = null;
 
+    #[Assert\Length(max: 60)]
     #[ORM\Column(length: 60, nullable: true, options: ['comment' => '设备最后登录时间戳'])]
     private ?string $lastLoginTime = null;
 
+    #[Assert\Length(max: 60)]
     #[ORM\Column(length: 60, nullable: true, options: ['comment' => '设备最后登录成员userid'])]
     private ?string $lastLoginUserid = null;
 
+    #[Assert\Length(max: 60)]
     #[ORM\Column(length: 60, nullable: true, options: ['comment' => '设备归属/确认时间戳'])]
     private ?string $confirmTimestamp = null;
 
+    #[Assert\Length(max: 60)]
     #[ORM\Column(length: 60, nullable: true, options: ['comment' => '设备归属/确认成员userid'])]
     private ?string $confirmUserid = null;
 
+    #[Assert\Length(max: 60)]
     #[ORM\Column(length: 60, nullable: true, options: ['comment' => '通过申报的管理员userid'])]
     private ?string $approvedUserid = null;
 
+    #[Assert\Choice(callback: [TrustDeviceSourceEnum::class, 'cases'])]
     #[ORM\Column(length: 20, nullable: false, enumType: TrustDeviceSourceEnum::class, options: ['comment' => '设备来源'])]
     private ?TrustDeviceSourceEnum $source = TrustDeviceSourceEnum::UNKNOWN;
 
-    #[ORM\Column(length: 20, nullable: false, enumType: TrustDeviceStatusEnum::class, options: ['comment' => '设备来源'])]
+    #[Assert\Choice(callback: [TrustDeviceStatusEnum::class, 'cases'])]
+    #[ORM\Column(length: 20, nullable: false, enumType: TrustDeviceStatusEnum::class, options: ['comment' => '设备状态'])]
     private ?TrustDeviceStatusEnum $status = TrustDeviceStatusEnum::IMPORTED_BUT_NOT_LOGGED_IN;
 
-    public function getId(): ?int
+    public function getId(): int
     {
         return $this->id;
     }
@@ -234,6 +254,7 @@ class TrustDevice implements \Stringable
     {
         $this->deviceCode = $deviceCode;
     }
+
     public function __toString(): string
     {
         return (string) $this->getId();

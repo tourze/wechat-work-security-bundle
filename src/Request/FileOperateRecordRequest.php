@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace WechatWorkSecurityBundle\Request;
 
 use HttpClientBundle\Request\ApiRequest;
@@ -25,12 +27,12 @@ class FileOperateRecordRequest extends ApiRequest
     private int $endTime;
 
     /**
-     * @var array useridList
+     * @var array<string> useridList
      */
     private array $useridList = [];
 
     /**
-     * @var array operation
+     * @var array<string>|null operation
      */
     private ?array $operation = null;
 
@@ -74,21 +76,33 @@ class FileOperateRecordRequest extends ApiRequest
         $this->endTime = $endTime;
     }
 
+    /**
+     * @return array<string>
+     */
     public function getUseridList(): array
     {
         return $this->useridList;
     }
 
+    /**
+     * @param array<string> $useridList
+     */
     public function setUseridList(array $useridList): void
     {
         $this->useridList = $useridList;
     }
 
-    public function getOperation(): array
+    /**
+     * @return array<string>|null
+     */
+    public function getOperation(): ?array
     {
         return $this->operation;
     }
 
+    /**
+     * @param array<string> $operation
+     */
     public function setOperation(array $operation): void
     {
         $this->operation = $operation;

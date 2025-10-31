@@ -1,13 +1,23 @@
 <?php
 
+declare(strict_types=1);
+
 namespace WechatWorkSecurityBundle\Tests\Enum;
 
-use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\Attributes\CoversClass;
+use Tourze\EnumExtra\Itemable;
+use Tourze\EnumExtra\Labelable;
+use Tourze\EnumExtra\Selectable;
+use Tourze\PHPUnitEnum\AbstractEnumTestCase;
 use WechatWorkSecurityBundle\Enum\TrustDeviceStatusEnum;
 
-class TrustDeviceStatusEnumTest extends TestCase
+/**
+ * @internal
+ */
+#[CoversClass(TrustDeviceStatusEnum::class)]
+final class TrustDeviceStatusEnumTest extends AbstractEnumTestCase
 {
-    public function test_enum_cases_exist(): void
+    public function testEnumCasesExist(): void
     {
         $cases = TrustDeviceStatusEnum::cases();
 
@@ -20,7 +30,7 @@ class TrustDeviceStatusEnumTest extends TestCase
         $this->assertContains(TrustDeviceStatusEnum::CONFIRMED_AS_TRUSTED_PERSONAL_DEVICE, $cases);
     }
 
-    public function test_enum_values_are_correct(): void
+    public function testEnumValuesAreCorrect(): void
     {
         $this->assertSame(1, TrustDeviceStatusEnum::IMPORTED_BUT_NOT_LOGGED_IN->value);
         $this->assertSame(2, TrustDeviceStatusEnum::PENDING_INVITATION->value);
@@ -30,7 +40,7 @@ class TrustDeviceStatusEnumTest extends TestCase
         $this->assertSame(6, TrustDeviceStatusEnum::CONFIRMED_AS_TRUSTED_PERSONAL_DEVICE->value);
     }
 
-    public function test_getLabel_returns_correct_labels(): void
+    public function testGetLabelReturnsCorrectLabels(): void
     {
         $this->assertSame('已导入未登录', TrustDeviceStatusEnum::IMPORTED_BUT_NOT_LOGGED_IN->getLabel());
         $this->assertSame('待邀请', TrustDeviceStatusEnum::PENDING_INVITATION->getLabel());
@@ -40,7 +50,7 @@ class TrustDeviceStatusEnumTest extends TestCase
         $this->assertSame('已确认为可信个人设备', TrustDeviceStatusEnum::CONFIRMED_AS_TRUSTED_PERSONAL_DEVICE->getLabel());
     }
 
-    public function test_tryFrom_with_valid_values(): void
+    public function testTryFromWithValidValues(): void
     {
         $this->assertSame(TrustDeviceStatusEnum::IMPORTED_BUT_NOT_LOGGED_IN, TrustDeviceStatusEnum::tryFrom(1));
         $this->assertSame(TrustDeviceStatusEnum::PENDING_INVITATION, TrustDeviceStatusEnum::tryFrom(2));
@@ -50,35 +60,22 @@ class TrustDeviceStatusEnumTest extends TestCase
         $this->assertSame(TrustDeviceStatusEnum::CONFIRMED_AS_TRUSTED_PERSONAL_DEVICE, TrustDeviceStatusEnum::tryFrom(6));
     }
 
-    public function test_tryFrom_with_invalid_value_returns_null(): void
-    {
-        $this->assertNull(TrustDeviceStatusEnum::tryFrom(0));
-        $this->assertNull(TrustDeviceStatusEnum::tryFrom(7));
-        $this->assertNull(TrustDeviceStatusEnum::tryFrom(-1));
-    }
-
-    public function test_from_with_valid_values(): void
+    public function testFromWithValidValues(): void
     {
         $this->assertSame(TrustDeviceStatusEnum::IMPORTED_BUT_NOT_LOGGED_IN, TrustDeviceStatusEnum::from(1));
         $this->assertSame(TrustDeviceStatusEnum::CONFIRMED_AS_TRUSTED_PERSONAL_DEVICE, TrustDeviceStatusEnum::from(6));
     }
 
-    public function test_from_with_invalid_value_throws_exception(): void
-    {
-        $this->expectException(\ValueError::class);
-        TrustDeviceStatusEnum::from(999);
-    }
-
-    public function test_implements_required_interfaces(): void
+    public function testImplementsRequiredInterfaces(): void
     {
         $enum = TrustDeviceStatusEnum::IMPORTED_BUT_NOT_LOGGED_IN;
 
-        $this->assertInstanceOf(\Tourze\EnumExtra\Labelable::class, $enum);
-        $this->assertInstanceOf(\Tourze\EnumExtra\Itemable::class, $enum);
-        $this->assertInstanceOf(\Tourze\EnumExtra\Selectable::class, $enum);
+        $this->assertInstanceOf(Labelable::class, $enum);
+        $this->assertInstanceOf(Itemable::class, $enum);
+        $this->assertInstanceOf(Selectable::class, $enum);
     }
 
-    public function test_trait_methods_are_available(): void
+    public function testTraitMethodsAreAvailable(): void
     {
         // 验证静态方法 genOptions 存在并返回预期的结构
         $options = TrustDeviceStatusEnum::genOptions();
@@ -100,7 +97,7 @@ class TrustDeviceStatusEnumTest extends TestCase
         $this->assertCount(2, $array);
     }
 
-    public function test_toSelectItem_returns_correct_structure(): void
+    public function testToSelectItemReturnsCorrectStructure(): void
     {
         $item = TrustDeviceStatusEnum::IMPORTED_BUT_NOT_LOGGED_IN->toSelectItem();
 
@@ -115,7 +112,21 @@ class TrustDeviceStatusEnumTest extends TestCase
         $this->assertSame('已导入未登录', $item['name']);
     }
 
-    public function test_genOptions_returns_array_of_options(): void
+    public function testToArrayReturnsCorrectStructure(): void
+    {
+        $array = TrustDeviceStatusEnum::IMPORTED_BUT_NOT_LOGGED_IN->toArray();
+        $this->assertArrayHasKey('value', $array);
+        $this->assertArrayHasKey('label', $array);
+        $this->assertCount(2, $array);
+        $this->assertSame(1, $array['value']);
+        $this->assertSame('已导入未登录', $array['label']);
+
+        $array = TrustDeviceStatusEnum::CONFIRMED_AS_TRUSTED_PERSONAL_DEVICE->toArray();
+        $this->assertSame(6, $array['value']);
+        $this->assertSame('已确认为可信个人设备', $array['label']);
+    }
+
+    public function testGenOptionsReturnsArrayOfOptions(): void
     {
         $options = TrustDeviceStatusEnum::genOptions();
         $this->assertCount(6, $options);

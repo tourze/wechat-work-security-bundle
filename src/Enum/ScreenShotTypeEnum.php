@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace WechatWorkSecurityBundle\Enum;
 
 use Tourze\EnumExtra\Itemable;
@@ -13,8 +15,8 @@ use Tourze\EnumExtra\SelectTrait;
  */
 enum ScreenShotTypeEnum: int implements Labelable, Itemable, Selectable
 {
-    use ItemTrait;
     use SelectTrait;
+    use ItemTrait;
 
     case CHAT = 1;
     case CONTACTS = 2;

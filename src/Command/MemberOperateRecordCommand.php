@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace WechatWorkSecurityBundle\Command;
 
 use Carbon\CarbonImmutable;
@@ -9,6 +11,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use WechatWorkBundle\Entity\Agent;
 use WechatWorkBundle\Repository\AgentRepository;
 use WechatWorkBundle\Service\WorkService;
 use WechatWorkSecurityBundle\Entity\MemberOperateRecord;
@@ -33,28 +36,45 @@ class MemberOperateRecordCommand extends Command
 
     protected function configure(): void
     {
-        $this->setDescription('文件防泄漏')
+        $this->setDescription('获取成员操作记录')
             ->addArgument('startTime', InputArgument::OPTIONAL, 'order start time', CarbonImmutable::now()->subDay()->startOfDay()->format('Y-m-d H:i:s'))
-            ->addArgument('endTime', InputArgument::OPTIONAL, 'order end time', CarbonImmutable::now()->subDay()->endOfDay()->format('Y-m-d H:i:s'));
+            ->addArgument('endTime', InputArgument::OPTIONAL, 'order end time', CarbonImmutable::now()->subDay()->endOfDay()->format('Y-m-d H:i:s'))
+        ;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $startTimeString = $input->getArgument('startTime');
         $endTimeString = $input->getArgument('endTime');
-        // 转换一下
+
+        // 确保时间参数为字符串类型
+        assert(is_string($startTimeString) || is_null($startTimeString));
+        assert(is_string($endTimeString) || is_null($endTimeString));
+
         $startTime = CarbonImmutable::parse($startTimeString);
         $endTime = CarbonImmutable::parse($endTimeString);
-        // 获取当前时间
+
+        $validationResult = $this->validateTimeRange($startTime, $endTime, $output);
+        if (Command::SUCCESS !== $validationResult) {
+            return $validationResult;
+        }
+
+        $this->processAgents($startTime, $endTime);
+
+        return Command::SUCCESS;
+    }
+
+    private function validateTimeRange(CarbonImmutable $startTime, CarbonImmutable $endTime, OutputInterface $output): int
+    {
         $currentTime = CarbonImmutable::now();
         $minStartTime = CarbonImmutable::now()->subDays(180);
+
         if ($startTime < $minStartTime) {
             $output->writeln('开始时间不能早于当前时间的 180 天前');
 
             return Command::FAILURE;
         }
 
-        // 检查结束时间
         if ($endTime <= $startTime) {
             $output->writeln('结束时间必须大于开始时间');
 
@@ -67,33 +87,83 @@ class MemberOperateRecordCommand extends Command
             return Command::FAILURE;
         }
 
-        // 检查开始时间和结束时间之间的跨度是否超过 7 天
         $daysDifference = $startTime->diffInDays($endTime);
         if ($daysDifference > 7) {
             $output->writeln('开始时间和结束时间之间的跨度不能超过 7 天');
 
             return Command::FAILURE;
         }
-        foreach ($this->agentRepository->findAll() as $agent) {
-            $request = new MemberOperateRecordRequest();
-            $request->setAgent($agent);
-            $request->setStartTime(strtotime($startTime));
-            $request->setEndTime(strtotime($endTime));
-            $result = $this->workService->request($request);
-            if (isset($result['errcode']) && 0 == $result['errcode']) {
-                foreach ($result['record_list'] as $record) {
-                    $memberOperateRecord = new MemberOperateRecord();
-                    $memberOperateRecord->setOperType($record['oper_type']);
-                    $memberOperateRecord->setTime(CarbonImmutable::createFromTimestamp($record['time'], date_default_timezone_get()));
-                    $memberOperateRecord->setDetailInfo($record['detail_info']);
-                    $memberOperateRecord->setIp($record['ip']);
-                    $memberOperateRecord->setUserid($record['userid']);
-                    $this->entityManager->persist($memberOperateRecord);
-                    $this->entityManager->flush();
-                }
-            }
-        }
 
         return Command::SUCCESS;
+    }
+
+    private function processAgents(CarbonImmutable $startTime, CarbonImmutable $endTime): void
+    {
+        /** @var list<Agent> $agents */
+        $agents = $this->agentRepository->findAll();
+        foreach ($agents as $agent) {
+            $request = new MemberOperateRecordRequest();
+            $request->setAgent($agent);
+            $request->setStartTime((int) $startTime->timestamp);
+            $request->setEndTime((int) $endTime->timestamp);
+            $result = $this->workService->request($request);
+
+            // 类型守卫：确保 $result 是数组格式
+            if (is_array($result) && isset($result['errcode']) && 0 === $result['errcode']) {
+                // 确保 record_list 存在且为数组
+                $recordList = $result['record_list'] ?? [];
+                assert(is_array($recordList));
+
+                $this->processRecords($recordList);
+            }
+        }
+    }
+
+    /**
+     * @param array<mixed> $records
+     */
+    private function processRecords(array $records): void
+    {
+        foreach ($records as $record) {
+            // 类型守卫：确保 $record 是数组格式
+            if (!is_array($record)) {
+                continue;
+            }
+
+            $memberOperateRecord = $this->createMemberOperateRecord($record);
+            $this->entityManager->persist($memberOperateRecord);
+            $this->entityManager->flush();
+        }
+    }
+
+    /**
+     * @param array<mixed> $record
+     */
+    private function createMemberOperateRecord(array $record): MemberOperateRecord
+    {
+        $memberOperateRecord = new MemberOperateRecord();
+
+        // 类型守卫：确保所有字段都是预期的类型
+        $operType = $record['oper_type'] ?? null;
+        assert(is_string($operType) || is_null($operType));
+        $memberOperateRecord->setOperType($operType);
+
+        $time = $record['time'] ?? 0;
+        assert(is_numeric($time));
+        $memberOperateRecord->setTime(CarbonImmutable::createFromTimestamp((int) $time, date_default_timezone_get()));
+
+        $detailInfo = $record['detail_info'] ?? null;
+        assert(is_string($detailInfo) || is_null($detailInfo));
+        $memberOperateRecord->setDetailInfo($detailInfo);
+
+        $ip = $record['ip'] ?? null;
+        assert(is_string($ip) || is_null($ip));
+        $memberOperateRecord->setIp($ip);
+
+        $userid = $record['userid'] ?? null;
+        assert(is_string($userid) || is_null($userid));
+        $memberOperateRecord->setUserid($userid);
+
+        return $memberOperateRecord;
     }
 }

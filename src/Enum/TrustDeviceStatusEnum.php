@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace WechatWorkSecurityBundle\Enum;
 
 use Tourze\EnumExtra\Itemable;
@@ -13,8 +15,8 @@ use Tourze\EnumExtra\SelectTrait;
  */
 enum TrustDeviceStatusEnum: int implements Labelable, Itemable, Selectable
 {
-    use ItemTrait;
     use SelectTrait;
+    use ItemTrait;
 
     case IMPORTED_BUT_NOT_LOGGED_IN = 1;
     case PENDING_INVITATION = 2;

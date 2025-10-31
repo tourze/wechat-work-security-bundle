@@ -1,13 +1,23 @@
 <?php
 
+declare(strict_types=1);
+
 namespace WechatWorkSecurityBundle\Tests\Enum;
 
-use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\Attributes\CoversClass;
+use Tourze\EnumExtra\Itemable;
+use Tourze\EnumExtra\Labelable;
+use Tourze\EnumExtra\Selectable;
+use Tourze\PHPUnitEnum\AbstractEnumTestCase;
 use WechatWorkSecurityBundle\Enum\ScreenShotTypeEnum;
 
-class ScreenShotTypeEnumTest extends TestCase
+/**
+ * @internal
+ */
+#[CoversClass(ScreenShotTypeEnum::class)]
+final class ScreenShotTypeEnumTest extends AbstractEnumTestCase
 {
-    public function test_enum_cases_exist(): void
+    public function testEnumCasesExist(): void
     {
         $cases = ScreenShotTypeEnum::cases();
 
@@ -20,7 +30,7 @@ class ScreenShotTypeEnumTest extends TestCase
         $this->assertContains(ScreenShotTypeEnum::OTHERS, $cases);
     }
 
-    public function test_enum_values_are_correct(): void
+    public function testEnumValuesAreCorrect(): void
     {
         $this->assertSame(1, ScreenShotTypeEnum::CHAT->value);
         $this->assertSame(2, ScreenShotTypeEnum::CONTACTS->value);
@@ -30,7 +40,7 @@ class ScreenShotTypeEnumTest extends TestCase
         $this->assertSame(6, ScreenShotTypeEnum::OTHERS->value);
     }
 
-    public function test_getLabel_returns_correct_labels(): void
+    public function testGetLabelReturnsCorrectLabels(): void
     {
         $this->assertSame('聊天', ScreenShotTypeEnum::CHAT->getLabel());
         $this->assertSame('通讯录', ScreenShotTypeEnum::CONTACTS->getLabel());
@@ -40,7 +50,7 @@ class ScreenShotTypeEnumTest extends TestCase
         $this->assertSame('其他', ScreenShotTypeEnum::OTHERS->getLabel());
     }
 
-    public function test_tryFrom_with_valid_values(): void
+    public function testTryFromWithValidValues(): void
     {
         $this->assertSame(ScreenShotTypeEnum::CHAT, ScreenShotTypeEnum::tryFrom(1));
         $this->assertSame(ScreenShotTypeEnum::CONTACTS, ScreenShotTypeEnum::tryFrom(2));
@@ -50,35 +60,22 @@ class ScreenShotTypeEnumTest extends TestCase
         $this->assertSame(ScreenShotTypeEnum::OTHERS, ScreenShotTypeEnum::tryFrom(6));
     }
 
-    public function test_tryFrom_with_invalid_value_returns_null(): void
-    {
-        $this->assertNull(ScreenShotTypeEnum::tryFrom(0));
-        $this->assertNull(ScreenShotTypeEnum::tryFrom(7));
-        $this->assertNull(ScreenShotTypeEnum::tryFrom(-1));
-    }
-
-    public function test_from_with_valid_values(): void
+    public function testFromWithValidValues(): void
     {
         $this->assertSame(ScreenShotTypeEnum::CHAT, ScreenShotTypeEnum::from(1));
         $this->assertSame(ScreenShotTypeEnum::OTHERS, ScreenShotTypeEnum::from(6));
     }
 
-    public function test_from_with_invalid_value_throws_exception(): void
-    {
-        $this->expectException(\ValueError::class);
-        ScreenShotTypeEnum::from(999);
-    }
-
-    public function test_implements_required_interfaces(): void
+    public function testImplementsRequiredInterfaces(): void
     {
         $enum = ScreenShotTypeEnum::CHAT;
 
-        $this->assertInstanceOf(\Tourze\EnumExtra\Labelable::class, $enum);
-        $this->assertInstanceOf(\Tourze\EnumExtra\Itemable::class, $enum);
-        $this->assertInstanceOf(\Tourze\EnumExtra\Selectable::class, $enum);
+        $this->assertInstanceOf(Labelable::class, $enum);
+        $this->assertInstanceOf(Itemable::class, $enum);
+        $this->assertInstanceOf(Selectable::class, $enum);
     }
 
-    public function test_trait_methods_are_available(): void
+    public function testTraitMethodsAreAvailable(): void
     {
         // 验证静态方法 genOptions 存在并返回预期的结构
         $options = ScreenShotTypeEnum::genOptions();
@@ -100,7 +97,7 @@ class ScreenShotTypeEnumTest extends TestCase
         $this->assertCount(2, $array);
     }
 
-    public function test_toSelectItem_returns_correct_structure(): void
+    public function testToSelectItemReturnsCorrectStructure(): void
     {
         $item = ScreenShotTypeEnum::CHAT->toSelectItem();
 
@@ -115,7 +112,21 @@ class ScreenShotTypeEnumTest extends TestCase
         $this->assertSame('聊天', $item['name']);
     }
 
-    public function test_genOptions_returns_array_of_options(): void
+    public function testToArrayReturnsCorrectStructure(): void
+    {
+        $array = ScreenShotTypeEnum::CHAT->toArray();
+        $this->assertArrayHasKey('value', $array);
+        $this->assertArrayHasKey('label', $array);
+        $this->assertCount(2, $array);
+        $this->assertSame(1, $array['value']);
+        $this->assertSame('聊天', $array['label']);
+
+        $array = ScreenShotTypeEnum::OTHERS->toArray();
+        $this->assertSame(6, $array['value']);
+        $this->assertSame('其他', $array['label']);
+    }
+
+    public function testGenOptionsReturnsArrayOfOptions(): void
     {
         $options = ScreenShotTypeEnum::genOptions();
         $this->assertCount(6, $options);

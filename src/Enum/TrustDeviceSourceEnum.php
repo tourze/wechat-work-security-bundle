@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace WechatWorkSecurityBundle\Enum;
 
 use Tourze\EnumExtra\Itemable;
@@ -13,8 +15,8 @@ use Tourze\EnumExtra\SelectTrait;
  */
 enum TrustDeviceSourceEnum: int implements Labelable, Itemable, Selectable
 {
-    use ItemTrait;
     use SelectTrait;
+    use ItemTrait;
 
     case UNKNOWN = 1;
     case MEMBER_CONFIRMATION = 2;

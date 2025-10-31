@@ -1,139 +1,168 @@
 <?php
 
+declare(strict_types=1);
+
 namespace WechatWorkSecurityBundle\Tests\Entity;
 
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
+use Tourze\PHPUnitDoctrineEntity\AbstractEntityTestCase;
 use WechatWorkSecurityBundle\Entity\ScreenOperateRecord;
 use WechatWorkSecurityBundle\Enum\ScreenShotTypeEnum;
 
-class ScreenOperateRecordTest extends TestCase
+/**
+ * @internal
+ */
+#[CoversClass(ScreenOperateRecord::class)]
+final class ScreenOperateRecordTest extends AbstractEntityTestCase
 {
-    private ScreenOperateRecord $entity;
-
-    protected function setUp(): void
+    protected function createEntity(): object
     {
-        $this->entity = new ScreenOperateRecord();
+        return new ScreenOperateRecord();
     }
 
-    public function test_getId_returns_zero_by_default(): void
+    /**
+     * @return iterable<string, array{string, string}>
+     */
+    public static function propertiesProvider(): iterable
     {
-        $this->assertSame(0, $this->entity->getId());
+        return [
+            'userid' => ['userid', 'test_user_123'],
+            'system' => ['system', 'Windows 11'],
+            'screenShotContent' => ['screenShotContent', 'Screenshot content'],
+        ];
     }
 
-    public function test_time_getter_and_setter(): void
+    public function testGetIdReturnsZeroByDefault(): void
     {
-        $this->assertNull($this->entity->getTime());
+        $entity = new ScreenOperateRecord();
+        $this->assertSame(0, $entity->getId());
+    }
+
+    public function testTimeGetterAndSetter(): void
+    {
+        $entity = new ScreenOperateRecord();
+        $this->assertNull($entity->getTime());
 
         $time = new \DateTime('2024-01-01 12:00:00');
-        $this->entity->setTime($time);
-        
-        $this->assertSame($time, $this->entity->getTime());
+        $entity->setTime($time);
+
+        $this->assertSame($time, $entity->getTime());
     }
 
-    public function test_userid_getter_and_setter(): void
+    public function testUseridGetterAndSetter(): void
     {
-        $this->assertNull($this->entity->getUserid());
+        $entity = new ScreenOperateRecord();
+        $this->assertNull($entity->getUserid());
 
         $userid = 'test_user_123';
-        $this->entity->setUserid($userid);
-        
-        $this->assertSame($userid, $this->entity->getUserid());
+        $entity->setUserid($userid);
+
+        $this->assertSame($userid, $entity->getUserid());
     }
 
-    public function test_departmentId_getter_and_setter(): void
+    public function testDepartmentIdGetterAndSetter(): void
     {
-        $this->assertNull($this->entity->getDepartmentId());
+        $entity = new ScreenOperateRecord();
+        $this->assertNull($entity->getDepartmentId());
 
         $departmentId = 12345;
-        $this->entity->setDepartmentId($departmentId);
-        
-        $this->assertSame($departmentId, $this->entity->getDepartmentId());
+        $entity->setDepartmentId($departmentId);
+
+        $this->assertSame($departmentId, $entity->getDepartmentId());
     }
 
-    public function test_screenShotType_getter_and_setter(): void
+    public function testScreenShotTypeGetterAndSetter(): void
     {
-        $this->assertSame(ScreenShotTypeEnum::CHAT, $this->entity->getScreenShotType());
+        $entity = new ScreenOperateRecord();
+        $this->assertSame(ScreenShotTypeEnum::CHAT, $entity->getScreenShotType());
 
         $screenShotType = ScreenShotTypeEnum::FILES;
-        $this->entity->setScreenShotType($screenShotType);
-        
-        $this->assertSame($screenShotType, $this->entity->getScreenShotType());
+        $entity->setScreenShotType($screenShotType);
+
+        $this->assertSame($screenShotType, $entity->getScreenShotType());
     }
 
-    public function test_screenShotType_setter_with_null(): void
+    public function testScreenShotTypeSetterWithNull(): void
     {
-        $this->entity->setScreenShotType(null);
-        $this->assertNull($this->entity->getScreenShotType());
+        $entity = new ScreenOperateRecord();
+        $entity->setScreenShotType(null);
+        $this->assertNull($entity->getScreenShotType());
     }
 
-    public function test_screenShotType_has_default_value(): void
+    public function testScreenShotTypeHasDefaultValue(): void
     {
         $freshEntity = new ScreenOperateRecord();
         $this->assertSame(ScreenShotTypeEnum::CHAT, $freshEntity->getScreenShotType());
     }
 
-    public function test_screenShotContent_getter_and_setter(): void
+    public function testScreenShotContentGetterAndSetter(): void
     {
-        $this->assertNull($this->entity->getScreenShotContent());
+        $entity = new ScreenOperateRecord();
+        $this->assertNull($entity->getScreenShotContent());
 
         $content = 'Screenshot of chat conversation';
-        $this->entity->setScreenShotContent($content);
-        
-        $this->assertSame($content, $this->entity->getScreenShotContent());
+        $entity->setScreenShotContent($content);
+
+        $this->assertSame($content, $entity->getScreenShotContent());
     }
 
-    public function test_system_getter_and_setter(): void
+    public function testSystemGetterAndSetter(): void
     {
-        $this->assertNull($this->entity->getSystem());
+        $entity = new ScreenOperateRecord();
+        $this->assertNull($entity->getSystem());
 
         $system = 'Windows 11';
-        $this->entity->setSystem($system);
-        
-        $this->assertSame($system, $this->entity->getSystem());
+        $entity->setSystem($system);
+
+        $this->assertSame($system, $entity->getSystem());
     }
 
-    public function test_createTime_getter_and_setter(): void
+    public function testCreateTimeGetterAndSetter(): void
     {
-        $this->assertNull($this->entity->getCreateTime());
+        $entity = new ScreenOperateRecord();
+        $this->assertNull($entity->getCreateTime());
 
         $createTime = new \DateTimeImmutable('2024-01-01 10:00:00');
-        $this->entity->setCreateTime($createTime);
-        
-        $this->assertSame($createTime, $this->entity->getCreateTime());
+        $entity->setCreateTime($createTime);
+
+        $this->assertSame($createTime, $entity->getCreateTime());
     }
 
-    public function test_updateTime_getter_and_setter(): void
+    public function testUpdateTimeGetterAndSetter(): void
     {
-        $this->assertNull($this->entity->getUpdateTime());
+        $entity = new ScreenOperateRecord();
+        $this->assertNull($entity->getUpdateTime());
 
         $updateTime = new \DateTimeImmutable('2024-01-01 11:00:00');
-        $this->entity->setUpdateTime($updateTime);
-        
-        $this->assertSame($updateTime, $this->entity->getUpdateTime());
+        $entity->setUpdateTime($updateTime);
+
+        $this->assertSame($updateTime, $entity->getUpdateTime());
     }
 
-    public function test_entity_with_all_properties_set(): void
+    public function testEntityWithAllPropertiesSet(): void
     {
+        $entity = new ScreenOperateRecord();
         $time = new \DateTimeImmutable('2024-01-01 12:00:00');
         $createTime = new \DateTimeImmutable('2024-01-01 10:00:00');
         $updateTime = new \DateTimeImmutable('2024-01-01 11:00:00');
-        
-        $this->entity->setTime($time);
-        $this->entity->setUserid('user123');
-        $this->entity->setDepartmentId(12345);
-        $this->entity->setScreenShotType(ScreenShotTypeEnum::CHAT);
-        $this->entity->setScreenShotContent('Screenshot content');
-        $this->entity->setSystem('macOS');
-        $this->entity->setCreateTime($createTime);
-        $this->entity->setUpdateTime($updateTime);
 
-        $this->assertSame($time, $this->entity->getTime());
-        $this->assertSame('user123', $this->entity->getUserid());
-        $this->assertSame(12345, $this->entity->getDepartmentId());
-        $this->assertSame(ScreenShotTypeEnum::CHAT, $this->entity->getScreenShotType());
-        $this->assertSame('Screenshot content', $this->entity->getScreenShotContent());
-        $this->assertSame('macOS', $this->entity->getSystem());
-        $this->assertSame($createTime, $this->entity->getCreateTime());
-        $this->assertSame($updateTime, $this->entity->getUpdateTime());
+        $entity->setTime($time);
+        $entity->setUserid('user123');
+        $entity->setDepartmentId(12345);
+        $entity->setScreenShotType(ScreenShotTypeEnum::CHAT);
+        $entity->setScreenShotContent('Screenshot content');
+        $entity->setSystem('macOS');
+        $entity->setCreateTime($createTime);
+        $entity->setUpdateTime($updateTime);
+
+        $this->assertSame($time, $entity->getTime());
+        $this->assertSame('user123', $entity->getUserid());
+        $this->assertSame(12345, $entity->getDepartmentId());
+        $this->assertSame(ScreenShotTypeEnum::CHAT, $entity->getScreenShotType());
+        $this->assertSame('Screenshot content', $entity->getScreenShotContent());
+        $this->assertSame('macOS', $entity->getSystem());
+        $this->assertSame($createTime, $entity->getCreateTime());
+        $this->assertSame($updateTime, $entity->getUpdateTime());
     }
-} 
+}

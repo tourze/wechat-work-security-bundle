@@ -1,13 +1,23 @@
 <?php
 
+declare(strict_types=1);
+
 namespace WechatWorkSecurityBundle\Tests\Enum;
 
-use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\Attributes\CoversClass;
+use Tourze\EnumExtra\Itemable;
+use Tourze\EnumExtra\Labelable;
+use Tourze\EnumExtra\Selectable;
+use Tourze\PHPUnitEnum\AbstractEnumTestCase;
 use WechatWorkSecurityBundle\Enum\FileOperateDeviceCodeEnum;
 
-class FileOperateDeviceCodeEnumTest extends TestCase
+/**
+ * @internal
+ */
+#[CoversClass(FileOperateDeviceCodeEnum::class)]
+final class FileOperateDeviceCodeEnumTest extends AbstractEnumTestCase
 {
-    public function test_enum_cases_exist(): void
+    public function testEnumCasesExist(): void
     {
         $cases = FileOperateDeviceCodeEnum::cases();
 
@@ -16,53 +26,40 @@ class FileOperateDeviceCodeEnumTest extends TestCase
         $this->assertContains(FileOperateDeviceCodeEnum::PERSONAGE, $cases);
     }
 
-    public function test_enum_values_are_correct(): void
+    public function testEnumValuesAreCorrect(): void
     {
         $this->assertSame(1, FileOperateDeviceCodeEnum::FIRM->value);
         $this->assertSame(2, FileOperateDeviceCodeEnum::PERSONAGE->value);
     }
 
-    public function test_getLabel_returns_correct_labels(): void
+    public function testGetLabelReturnsCorrectLabels(): void
     {
         $this->assertSame('企业可信设备', FileOperateDeviceCodeEnum::FIRM->getLabel());
         $this->assertSame('个人可信设备', FileOperateDeviceCodeEnum::PERSONAGE->getLabel());
     }
 
-    public function test_tryFrom_with_valid_values(): void
+    public function testTryFromWithValidValues(): void
     {
         $this->assertSame(FileOperateDeviceCodeEnum::FIRM, FileOperateDeviceCodeEnum::tryFrom(1));
         $this->assertSame(FileOperateDeviceCodeEnum::PERSONAGE, FileOperateDeviceCodeEnum::tryFrom(2));
     }
 
-    public function test_tryFrom_with_invalid_value_returns_null(): void
-    {
-        $this->assertNull(FileOperateDeviceCodeEnum::tryFrom(0));
-        $this->assertNull(FileOperateDeviceCodeEnum::tryFrom(3));
-        $this->assertNull(FileOperateDeviceCodeEnum::tryFrom(-1));
-    }
-
-    public function test_from_with_valid_values(): void
+    public function testFromWithValidValues(): void
     {
         $this->assertSame(FileOperateDeviceCodeEnum::FIRM, FileOperateDeviceCodeEnum::from(1));
         $this->assertSame(FileOperateDeviceCodeEnum::PERSONAGE, FileOperateDeviceCodeEnum::from(2));
     }
 
-    public function test_from_with_invalid_value_throws_exception(): void
-    {
-        $this->expectException(\ValueError::class);
-        FileOperateDeviceCodeEnum::from(999);
-    }
-
-    public function test_implements_required_interfaces(): void
+    public function testImplementsRequiredInterfaces(): void
     {
         $enum = FileOperateDeviceCodeEnum::FIRM;
 
-        $this->assertInstanceOf(\Tourze\EnumExtra\Labelable::class, $enum);
-        $this->assertInstanceOf(\Tourze\EnumExtra\Itemable::class, $enum);
-        $this->assertInstanceOf(\Tourze\EnumExtra\Selectable::class, $enum);
+        $this->assertInstanceOf(Labelable::class, $enum);
+        $this->assertInstanceOf(Itemable::class, $enum);
+        $this->assertInstanceOf(Selectable::class, $enum);
     }
 
-    public function test_trait_methods_are_available(): void
+    public function testTraitMethodsAreAvailable(): void
     {
         // 验证静态方法 genOptions 存在并返回预期的结构
         $options = FileOperateDeviceCodeEnum::genOptions();
@@ -84,7 +81,7 @@ class FileOperateDeviceCodeEnumTest extends TestCase
         $this->assertCount(2, $array);
     }
 
-    public function test_toSelectItem_returns_correct_structure(): void
+    public function testToSelectItemReturnsCorrectStructure(): void
     {
         $item = FileOperateDeviceCodeEnum::FIRM->toSelectItem();
 
@@ -99,7 +96,7 @@ class FileOperateDeviceCodeEnumTest extends TestCase
         $this->assertSame('企业可信设备', $item['name']);
     }
 
-    public function test_toArray_returns_correct_structure(): void
+    public function testToArrayReturnsCorrectStructure(): void
     {
         $array = FileOperateDeviceCodeEnum::FIRM->toArray();
 
@@ -110,7 +107,7 @@ class FileOperateDeviceCodeEnumTest extends TestCase
         $this->assertSame('企业可信设备', $array['label']);
     }
 
-    public function test_genOptions_returns_array_of_options(): void
+    public function testGenOptionsReturnsArrayOfOptions(): void
     {
         $options = FileOperateDeviceCodeEnum::genOptions();
         $this->assertCount(2, $options);

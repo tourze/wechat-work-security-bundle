@@ -3,10 +3,25 @@ services:
   _defaults:
     autowire: true      # Automatically injects dependencies in your services.
     autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+    public: false
 
+  # Commands
   WechatWorkSecurityBundle\Command\:
     resource: '../../Command/'
+    tags: ['console.command']
+
+  # Controllers
+  WechatWorkSecurityBundle\Controller\:
+    resource: '../../Controller/'
+    tags: ['controller.service_arguments']
+
   WechatWorkSecurityBundle\Repository\:
     resource: '../../Repository/'
+
+  # Request classes
   WechatWorkSecurityBundle\Request\:
     resource: '../../Request/'
+
+  # Services
+  WechatWorkSecurityBundle\Service\:
+    resource: '../../Service/'

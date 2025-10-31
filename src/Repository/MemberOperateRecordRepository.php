@@ -1,21 +1,40 @@
 <?php
 
+declare(strict_types=1);
+
 namespace WechatWorkSecurityBundle\Repository;
 
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Tourze\PHPUnitSymfonyKernelTest\Attribute\AsRepository;
 use WechatWorkSecurityBundle\Entity\MemberOperateRecord;
 
 /**
- * @method MemberOperateRecord|null find($id, $lockMode = null, $lockVersion = null)
- * @method MemberOperateRecord|null findOneBy(array $criteria, array $orderBy = null)
- * @method MemberOperateRecord[]    findAll()
- * @method MemberOperateRecord[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @extends ServiceEntityRepository<MemberOperateRecord>
  */
+#[AsRepository(entityClass: MemberOperateRecord::class)]
 class MemberOperateRecordRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, MemberOperateRecord::class);
+    }
+
+    public function save(MemberOperateRecord $entity, bool $flush = true): void
+    {
+        $this->getEntityManager()->persist($entity);
+
+        if ($flush) {
+            $this->getEntityManager()->flush();
+        }
+    }
+
+    public function remove(MemberOperateRecord $entity, bool $flush = true): void
+    {
+        $this->getEntityManager()->remove($entity);
+
+        if ($flush) {
+            $this->getEntityManager()->flush();
+        }
     }
 }

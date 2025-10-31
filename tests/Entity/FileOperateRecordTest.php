@@ -1,253 +1,290 @@
 <?php
 
+declare(strict_types=1);
+
 namespace WechatWorkSecurityBundle\Tests\Entity;
 
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
+use Tourze\PHPUnitDoctrineEntity\AbstractEntityTestCase;
 use WechatWorkSecurityBundle\Entity\FileOperateRecord;
 use WechatWorkSecurityBundle\Enum\FileOperateDeviceCodeEnum;
 
-class FileOperateRecordTest extends TestCase
+/**
+ * @internal
+ */
+#[CoversClass(FileOperateRecord::class)]
+final class FileOperateRecordTest extends AbstractEntityTestCase
 {
-    private FileOperateRecord $entity;
-
-    protected function setUp(): void
+    protected function createEntity(): object
     {
-        $this->entity = new FileOperateRecord();
+        return new FileOperateRecord();
     }
 
-    public function test_getId_returns_zero_by_default(): void
+    /**
+     * @return iterable<string, array{string, string}>
+     */
+    public static function propertiesProvider(): iterable
     {
-        $this->assertSame(0, $this->entity->getId());
+        return [
+            'userid' => ['userid', 'test_user_123'],
+            'operation' => ['operation', 'download'],
+            'fileInfo' => ['fileInfo', 'document.pdf'],
+        ];
     }
 
-    public function test_time_getter_and_setter(): void
+    public function testGetIdReturnsZeroByDefault(): void
     {
-        $this->assertNull($this->entity->getTime());
+        $entity = new FileOperateRecord();
+        $this->assertSame(0, $entity->getId());
+    }
+
+    public function testTimeGetterAndSetter(): void
+    {
+        $entity = new FileOperateRecord();
+        $this->assertNull($entity->getTime());
 
         $time = new \DateTime('2024-01-01 12:00:00');
-        $this->entity->setTime($time);
+        $entity->setTime($time);
 
-        $this->assertSame($time, $this->entity->getTime());
+        $this->assertSame($time, $entity->getTime());
     }
 
-    public function test_time_setter_with_null(): void
+    public function testTimeSetterWithNull(): void
     {
-        $this->entity->setTime(null);
-        $this->assertNull($this->entity->getTime());
+        $entity = new FileOperateRecord();
+        $entity->setTime(null);
+        $this->assertNull($entity->getTime());
     }
 
-    public function test_userid_getter_and_setter(): void
+    public function testUseridGetterAndSetter(): void
     {
-        $this->assertNull($this->entity->getUserid());
+        $entity = new FileOperateRecord();
+        $this->assertNull($entity->getUserid());
 
         $userid = 'test_user_123';
-        $this->entity->setUserid($userid);
+        $entity->setUserid($userid);
 
-        $this->assertSame($userid, $this->entity->getUserid());
+        $this->assertSame($userid, $entity->getUserid());
     }
 
-    public function test_userid_setter_with_null(): void
+    public function testUseridSetterWithNull(): void
     {
-        $this->entity->setUserid(null);
-        $this->assertNull($this->entity->getUserid());
+        $entity = new FileOperateRecord();
+        $entity->setUserid(null);
+        $this->assertNull($entity->getUserid());
     }
 
-    public function test_externalUser_getter_and_setter(): void
+    public function testExternalUserGetterAndSetter(): void
     {
-        $this->assertNull($this->entity->getExternalUser());
+        $entity = new FileOperateRecord();
+        $this->assertNull($entity->getExternalUser());
 
         $externalUser = 'external_user_456';
-        $this->entity->setExternalUser($externalUser);
+        $entity->setExternalUser($externalUser);
 
-        $this->assertSame($externalUser, $this->entity->getExternalUser());
+        $this->assertSame($externalUser, $entity->getExternalUser());
     }
 
-    public function test_externalUser_setter_with_null(): void
+    public function testExternalUserSetterWithNull(): void
     {
-        $this->entity->setExternalUser(null);
-        $this->assertNull($this->entity->getExternalUser());
+        $entity = new FileOperateRecord();
+        $entity->setExternalUser(null);
+        $this->assertNull($entity->getExternalUser());
     }
 
-    public function test_operation_getter_and_setter(): void
+    public function testOperationGetterAndSetter(): void
     {
-        $this->assertNull($this->entity->getOperation());
+        $entity = new FileOperateRecord();
+        $this->assertNull($entity->getOperation());
 
         $operation = 'download';
-        $this->entity->setOperation($operation);
+        $entity->setOperation($operation);
 
-        $this->assertSame($operation, $this->entity->getOperation());
+        $this->assertSame($operation, $entity->getOperation());
     }
 
-    public function test_operation_setter_with_null(): void
+    public function testOperationSetterWithNull(): void
     {
-        $this->entity->setOperation(null);
-        $this->assertNull($this->entity->getOperation());
+        $entity = new FileOperateRecord();
+        $entity->setOperation(null);
+        $this->assertNull($entity->getOperation());
     }
 
-    public function test_fileInfo_getter_and_setter(): void
+    public function testFileInfoGetterAndSetter(): void
     {
-        $this->assertNull($this->entity->getFileInfo());
+        $entity = new FileOperateRecord();
+        $this->assertNull($entity->getFileInfo());
 
         $fileInfo = 'document.pdf';
-        $this->entity->setFileInfo($fileInfo);
+        $entity->setFileInfo($fileInfo);
 
-        $this->assertSame($fileInfo, $this->entity->getFileInfo());
+        $this->assertSame($fileInfo, $entity->getFileInfo());
     }
 
-    public function test_fileInfo_setter_with_null(): void
+    public function testFileInfoSetterWithNull(): void
     {
-        $this->entity->setFileInfo(null);
-        $this->assertNull($this->entity->getFileInfo());
+        $entity = new FileOperateRecord();
+        $entity->setFileInfo(null);
+        $this->assertNull($entity->getFileInfo());
     }
 
-    public function test_fileMd5_getter_and_setter(): void
+    public function testFileMd5GetterAndSetter(): void
     {
-        $this->assertNull($this->entity->getFileMd5());
+        $entity = new FileOperateRecord();
+        $this->assertNull($entity->getFileMd5());
 
         $md5 = 'a1b2c3d4e5f6789012345678901234567890abcd';
-        $this->entity->setFileMd5($md5);
+        $entity->setFileMd5($md5);
 
-        $this->assertSame($md5, $this->entity->getFileMd5());
+        $this->assertSame($md5, $entity->getFileMd5());
     }
 
-    public function test_fileMd5_setter_with_null(): void
+    public function testFileMd5SetterWithNull(): void
     {
-        $this->entity->setFileMd5(null);
-        $this->assertNull($this->entity->getFileMd5());
+        $entity = new FileOperateRecord();
+        $entity->setFileMd5(null);
+        $this->assertNull($entity->getFileMd5());
     }
 
-    public function test_fileSize_getter_and_setter(): void
+    public function testFileSizeGetterAndSetter(): void
     {
-        $this->assertNull($this->entity->getFileSize());
+        $entity = new FileOperateRecord();
+        $this->assertNull($entity->getFileSize());
 
         $fileSize = '1024000';
-        $this->entity->setFileSize($fileSize);
+        $entity->setFileSize($fileSize);
 
-        $this->assertSame($fileSize, $this->entity->getFileSize());
+        $this->assertSame($fileSize, $entity->getFileSize());
     }
 
-    public function test_fileSize_setter_with_null(): void
+    public function testFileSizeSetterWithNull(): void
     {
-        $this->entity->setFileSize(null);
-        $this->assertNull($this->entity->getFileSize());
+        $entity = new FileOperateRecord();
+        $entity->setFileSize(null);
+        $this->assertNull($entity->getFileSize());
     }
 
-    public function test_applicantName_getter_and_setter(): void
+    public function testApplicantNameGetterAndSetter(): void
     {
-        $this->assertNull($this->entity->getApplicantName());
+        $entity = new FileOperateRecord();
+        $this->assertNull($entity->getApplicantName());
 
         $applicantName = '张三';
-        $this->entity->setApplicantName($applicantName);
+        $entity->setApplicantName($applicantName);
 
-        $this->assertSame($applicantName, $this->entity->getApplicantName());
+        $this->assertSame($applicantName, $entity->getApplicantName());
     }
 
-    public function test_applicantName_setter_with_null(): void
+    public function testApplicantNameSetterWithNull(): void
     {
-        $this->entity->setApplicantName(null);
-        $this->assertNull($this->entity->getApplicantName());
+        $entity = new FileOperateRecord();
+        $entity->setApplicantName(null);
+        $this->assertNull($entity->getApplicantName());
     }
 
-    public function test_deviceType_getter_and_setter(): void
+    public function testDeviceTypeGetterAndSetter(): void
     {
-        $this->assertSame(FileOperateDeviceCodeEnum::FIRM, $this->entity->getDeviceType());
+        $entity = new FileOperateRecord();
+        $this->assertSame(FileOperateDeviceCodeEnum::FIRM, $entity->getDeviceType());
 
         $deviceType = FileOperateDeviceCodeEnum::PERSONAGE;
-        $this->entity->setDeviceType($deviceType);
+        $entity->setDeviceType($deviceType);
 
-        $this->assertSame($deviceType, $this->entity->getDeviceType());
+        $this->assertSame($deviceType, $entity->getDeviceType());
     }
 
-    public function test_deviceType_setter_with_null(): void
-    {
-        $this->entity->setDeviceType(null);
-        $this->assertNull($this->entity->getDeviceType());
-    }
-
-    public function test_deviceType_has_default_value(): void
+    public function testDeviceTypeHasDefaultValue(): void
     {
         $freshEntity = new FileOperateRecord();
         $this->assertSame(FileOperateDeviceCodeEnum::FIRM, $freshEntity->getDeviceType());
     }
 
-    public function test_deviceCode_getter_and_setter(): void
+    public function testDeviceCodeGetterAndSetter(): void
     {
-        $this->assertNull($this->entity->getDeviceCode());
+        $entity = new FileOperateRecord();
+        $this->assertNull($entity->getDeviceCode());
 
         $deviceCode = 'device_001';
-        $this->entity->setDeviceCode($deviceCode);
+        $entity->setDeviceCode($deviceCode);
 
-        $this->assertSame($deviceCode, $this->entity->getDeviceCode());
+        $this->assertSame($deviceCode, $entity->getDeviceCode());
     }
 
-    public function test_deviceCode_setter_with_null(): void
+    public function testDeviceCodeSetterWithNull(): void
     {
-        $this->entity->setDeviceCode(null);
-        $this->assertNull($this->entity->getDeviceCode());
+        $entity = new FileOperateRecord();
+        $entity->setDeviceCode(null);
+        $this->assertNull($entity->getDeviceCode());
     }
 
-    public function test_createTime_getter_and_setter(): void
+    public function testCreateTimeGetterAndSetter(): void
     {
-        $this->assertNull($this->entity->getCreateTime());
+        $entity = new FileOperateRecord();
+        $this->assertNull($entity->getCreateTime());
 
         $createTime = new \DateTimeImmutable('2024-01-01 10:00:00');
-        $this->entity->setCreateTime($createTime);
+        $entity->setCreateTime($createTime);
 
-        $this->assertSame($createTime, $this->entity->getCreateTime());
+        $this->assertSame($createTime, $entity->getCreateTime());
     }
 
-    public function test_createTime_setter_with_null(): void
+    public function testCreateTimeSetterWithNull(): void
     {
-        $this->entity->setCreateTime(null);
-        $this->assertNull($this->entity->getCreateTime());
+        $entity = new FileOperateRecord();
+        $entity->setCreateTime(null);
+        $this->assertNull($entity->getCreateTime());
     }
 
-    public function test_updateTime_getter_and_setter(): void
+    public function testUpdateTimeGetterAndSetter(): void
     {
-        $this->assertNull($this->entity->getUpdateTime());
+        $entity = new FileOperateRecord();
+        $this->assertNull($entity->getUpdateTime());
 
         $updateTime = new \DateTimeImmutable('2024-01-01 11:00:00');
-        $this->entity->setUpdateTime($updateTime);
+        $entity->setUpdateTime($updateTime);
 
-        $this->assertSame($updateTime, $this->entity->getUpdateTime());
+        $this->assertSame($updateTime, $entity->getUpdateTime());
     }
 
-    public function test_updateTime_setter_with_null(): void
+    public function testUpdateTimeSetterWithNull(): void
     {
-        $this->entity->setUpdateTime(null);
-        $this->assertNull($this->entity->getUpdateTime());
+        $entity = new FileOperateRecord();
+        $entity->setUpdateTime(null);
+        $this->assertNull($entity->getUpdateTime());
     }
 
-    public function test_entity_with_all_properties_set(): void
+    public function testEntityWithAllPropertiesSet(): void
     {
+        $entity = new FileOperateRecord();
         $time = new \DateTimeImmutable('2024-01-01 12:00:00');
         $createTime = new \DateTimeImmutable('2024-01-01 10:00:00');
         $updateTime = new \DateTimeImmutable('2024-01-01 11:00:00');
 
-        $this->entity->setTime($time);
-        $this->entity->setUserid('user123');
-        $this->entity->setExternalUser('external456');
-        $this->entity->setOperation('download');
-        $this->entity->setFileInfo('document.pdf');
-        $this->entity->setFileMd5('abc123');
-        $this->entity->setFileSize('1024');
-        $this->entity->setApplicantName('张三');
-        $this->entity->setDeviceType(FileOperateDeviceCodeEnum::FIRM);
-        $this->entity->setDeviceCode('device001');
-        $this->entity->setCreateTime($createTime);
-        $this->entity->setUpdateTime($updateTime);
+        $entity->setTime($time);
+        $entity->setUserid('user123');
+        $entity->setExternalUser('external456');
+        $entity->setOperation('download');
+        $entity->setFileInfo('document.pdf');
+        $entity->setFileMd5('abc123');
+        $entity->setFileSize('1024');
+        $entity->setApplicantName('张三');
+        $entity->setDeviceType(FileOperateDeviceCodeEnum::FIRM);
+        $entity->setDeviceCode('device001');
+        $entity->setCreateTime($createTime);
+        $entity->setUpdateTime($updateTime);
 
-        $this->assertSame($time, $this->entity->getTime());
-        $this->assertSame('user123', $this->entity->getUserid());
-        $this->assertSame('external456', $this->entity->getExternalUser());
-        $this->assertSame('download', $this->entity->getOperation());
-        $this->assertSame('document.pdf', $this->entity->getFileInfo());
-        $this->assertSame('abc123', $this->entity->getFileMd5());
-        $this->assertSame('1024', $this->entity->getFileSize());
-        $this->assertSame('张三', $this->entity->getApplicantName());
-        $this->assertSame(FileOperateDeviceCodeEnum::FIRM, $this->entity->getDeviceType());
-        $this->assertSame('device001', $this->entity->getDeviceCode());
-        $this->assertSame($createTime, $this->entity->getCreateTime());
-        $this->assertSame($updateTime, $this->entity->getUpdateTime());
+        $this->assertSame($time, $entity->getTime());
+        $this->assertSame('user123', $entity->getUserid());
+        $this->assertSame('external456', $entity->getExternalUser());
+        $this->assertSame('download', $entity->getOperation());
+        $this->assertSame('document.pdf', $entity->getFileInfo());
+        $this->assertSame('abc123', $entity->getFileMd5());
+        $this->assertSame('1024', $entity->getFileSize());
+        $this->assertSame('张三', $entity->getApplicantName());
+        $this->assertSame(FileOperateDeviceCodeEnum::FIRM, $entity->getDeviceType());
+        $this->assertSame('device001', $entity->getDeviceCode());
+        $this->assertSame($createTime, $entity->getCreateTime());
+        $this->assertSame($updateTime, $entity->getUpdateTime());
     }
 }

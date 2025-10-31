@@ -1,42 +1,50 @@
 <?php
 
+declare(strict_types=1);
+
 namespace WechatWorkSecurityBundle\Entity;
 
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 use Tourze\DoctrineTimestampBundle\Traits\TimestampableAware;
 use WechatWorkSecurityBundle\Repository\MemberOperateRecordRepository;
 
 /**
  * @see https://developer.work.weixin.qq.com/document/path/100178
  */
-
 #[ORM\Entity(repositoryClass: MemberOperateRecordRepository::class)]
 #[ORM\Table(name: 'wechat_work_member_operate_record', options: ['comment' => '获取成员操作记录'])]
 class MemberOperateRecord implements \Stringable
 {
     use TimestampableAware;
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: Types::INTEGER, options: ['comment' => 'ID'])]
-    private ?int $id = 0;
+    private int $id = 0;
 
+    #[Assert\DateTime]
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true, options: ['comment' => '操作时间'])]
     private ?\DateTimeInterface $time = null;
 
+    #[Assert\Length(max: 60)]
     #[ORM\Column(length: 60, nullable: true, options: ['comment' => '操作者userid'])]
     private ?string $userid = null;
 
+    #[Assert\Length(max: 60)]
     #[ORM\Column(length: 60, nullable: true, options: ['comment' => '操作类型'])]
     private ?string $operType = null;
 
+    #[Assert\Length(max: 60)]
     #[ORM\Column(length: 60, nullable: true, options: ['comment' => '相关数据'])]
     private ?string $detailInfo = null;
 
+    #[Assert\Length(max: 60)]
     #[ORM\Column(length: 60, nullable: true, options: ['comment' => '操作者ip'])]
     private ?string $ip = null;
 
-    public function getId(): ?int
+    public function getId(): int
     {
         return $this->id;
     }
@@ -90,6 +98,7 @@ class MemberOperateRecord implements \Stringable
     {
         $this->time = $time;
     }
+
     public function __toString(): string
     {
         return (string) $this->getId();

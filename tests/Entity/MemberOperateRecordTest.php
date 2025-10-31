@@ -1,174 +1,210 @@
 <?php
 
+declare(strict_types=1);
+
 namespace WechatWorkSecurityBundle\Tests\Entity;
 
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
+use Tourze\PHPUnitDoctrineEntity\AbstractEntityTestCase;
 use WechatWorkSecurityBundle\Entity\MemberOperateRecord;
 
-class MemberOperateRecordTest extends TestCase
+/**
+ * @internal
+ */
+#[CoversClass(MemberOperateRecord::class)]
+final class MemberOperateRecordTest extends AbstractEntityTestCase
 {
-    private MemberOperateRecord $entity;
-
-    protected function setUp(): void
+    protected function createEntity(): object
     {
-        $this->entity = new MemberOperateRecord();
+        return new MemberOperateRecord();
     }
 
-    public function test_getId_returns_zero_by_default(): void
+    /**
+     * @return iterable<string, array{string, string}>
+     */
+    public static function propertiesProvider(): iterable
     {
-        $this->assertSame(0, $this->entity->getId());
+        return [
+            'userid' => ['userid', 'test_user_123'],
+            'operType' => ['operType', 'login'],
+            'ip' => ['ip', '192.168.1.100'],
+        ];
     }
 
-    public function test_time_getter_and_setter(): void
+    public function testGetIdReturnsZeroByDefault(): void
     {
-        $this->assertNull($this->entity->getTime());
+        $entity = new MemberOperateRecord();
+        $this->assertSame(0, $entity->getId());
+    }
+
+    public function testTimeGetterAndSetter(): void
+    {
+        $entity = new MemberOperateRecord();
+        $this->assertNull($entity->getTime());
 
         $time = new \DateTime('2024-01-01 12:00:00');
-        $this->entity->setTime($time);
+        $entity->setTime($time);
 
-        $this->assertSame($time, $this->entity->getTime());
+        $this->assertSame($time, $entity->getTime());
     }
 
-    public function test_time_setter_with_null(): void
+    public function testTimeSetterWithNull(): void
     {
-        $this->entity->setTime(null);
-        $this->assertNull($this->entity->getTime());
+        $entity = new MemberOperateRecord();
+        $entity->setTime(null);
+        $this->assertNull($entity->getTime());
     }
 
-    public function test_userid_getter_and_setter(): void
+    public function testUseridGetterAndSetter(): void
     {
-        $this->assertNull($this->entity->getUserid());
+        $entity = new MemberOperateRecord();
+        $this->assertNull($entity->getUserid());
 
         $userid = 'test_user_123';
-        $this->entity->setUserid($userid);
+        $entity->setUserid($userid);
 
-        $this->assertSame($userid, $this->entity->getUserid());
+        $this->assertSame($userid, $entity->getUserid());
     }
 
-    public function test_userid_setter_with_null(): void
+    public function testUseridSetterWithNull(): void
     {
-        $this->entity->setUserid(null);
-        $this->assertNull($this->entity->getUserid());
+        $entity = new MemberOperateRecord();
+        $entity->setUserid(null);
+        $this->assertNull($entity->getUserid());
     }
 
-    public function test_operType_getter_and_setter(): void
+    public function testOperTypeGetterAndSetter(): void
     {
-        $this->assertNull($this->entity->getOperType());
+        $entity = new MemberOperateRecord();
+        $this->assertNull($entity->getOperType());
 
         $operType = 'login';
-        $this->entity->setOperType($operType);
+        $entity->setOperType($operType);
 
-        $this->assertSame($operType, $this->entity->getOperType());
+        $this->assertSame($operType, $entity->getOperType());
     }
 
-    public function test_operType_setter_with_null(): void
+    public function testOperTypeSetterWithNull(): void
     {
-        $this->entity->setOperType(null);
-        $this->assertNull($this->entity->getOperType());
+        $entity = new MemberOperateRecord();
+        $entity->setOperType(null);
+        $this->assertNull($entity->getOperType());
     }
 
-    public function test_detailInfo_getter_and_setter(): void
+    public function testDetailInfoGetterAndSetter(): void
     {
-        $this->assertNull($this->entity->getDetailInfo());
+        $entity = new MemberOperateRecord();
+        $this->assertNull($entity->getDetailInfo());
 
         $detailInfo = 'User logged in from mobile';
-        $this->entity->setDetailInfo($detailInfo);
+        $entity->setDetailInfo($detailInfo);
 
-        $this->assertSame($detailInfo, $this->entity->getDetailInfo());
+        $this->assertSame($detailInfo, $entity->getDetailInfo());
     }
 
-    public function test_detailInfo_setter_with_null(): void
+    public function testDetailInfoSetterWithNull(): void
     {
-        $this->entity->setDetailInfo(null);
-        $this->assertNull($this->entity->getDetailInfo());
+        $entity = new MemberOperateRecord();
+        $entity->setDetailInfo(null);
+        $this->assertNull($entity->getDetailInfo());
     }
 
-    public function test_ip_getter_and_setter(): void
+    public function testIpGetterAndSetter(): void
     {
-        $this->assertNull($this->entity->getIp());
+        $entity = new MemberOperateRecord();
+        $this->assertNull($entity->getIp());
 
         $ip = '192.168.1.100';
-        $this->entity->setIp($ip);
+        $entity->setIp($ip);
 
-        $this->assertSame($ip, $this->entity->getIp());
+        $this->assertSame($ip, $entity->getIp());
     }
 
-    public function test_ip_setter_with_null(): void
+    public function testIpSetterWithNull(): void
     {
-        $this->entity->setIp(null);
-        $this->assertNull($this->entity->getIp());
+        $entity = new MemberOperateRecord();
+        $entity->setIp(null);
+        $this->assertNull($entity->getIp());
     }
 
-    public function test_createTime_getter_and_setter(): void
+    public function testCreateTimeGetterAndSetter(): void
     {
-        $this->assertNull($this->entity->getCreateTime());
+        $entity = new MemberOperateRecord();
+        $this->assertNull($entity->getCreateTime());
 
         $createTime = new \DateTimeImmutable('2024-01-01 10:00:00');
-        $this->entity->setCreateTime($createTime);
+        $entity->setCreateTime($createTime);
 
-        $this->assertSame($createTime, $this->entity->getCreateTime());
+        $this->assertSame($createTime, $entity->getCreateTime());
     }
 
-    public function test_createTime_setter_with_null(): void
+    public function testCreateTimeSetterWithNull(): void
     {
-        $this->entity->setCreateTime(null);
-        $this->assertNull($this->entity->getCreateTime());
+        $entity = new MemberOperateRecord();
+        $entity->setCreateTime(null);
+        $this->assertNull($entity->getCreateTime());
     }
 
-    public function test_updateTime_getter_and_setter(): void
+    public function testUpdateTimeGetterAndSetter(): void
     {
-        $this->assertNull($this->entity->getUpdateTime());
+        $entity = new MemberOperateRecord();
+        $this->assertNull($entity->getUpdateTime());
 
         $updateTime = new \DateTimeImmutable('2024-01-01 11:00:00');
-        $this->entity->setUpdateTime($updateTime);
+        $entity->setUpdateTime($updateTime);
 
-        $this->assertSame($updateTime, $this->entity->getUpdateTime());
+        $this->assertSame($updateTime, $entity->getUpdateTime());
     }
 
-    public function test_updateTime_setter_with_null(): void
+    public function testUpdateTimeSetterWithNull(): void
     {
-        $this->entity->setUpdateTime(null);
-        $this->assertNull($this->entity->getUpdateTime());
+        $entity = new MemberOperateRecord();
+        $entity->setUpdateTime(null);
+        $this->assertNull($entity->getUpdateTime());
     }
 
-    public function test_entity_with_all_properties_set(): void
+    public function testEntityWithAllPropertiesSet(): void
     {
+        $entity = new MemberOperateRecord();
         $time = new \DateTimeImmutable('2024-01-01 12:00:00');
         $createTime = new \DateTimeImmutable('2024-01-01 10:00:00');
         $updateTime = new \DateTimeImmutable('2024-01-01 11:00:00');
 
-        $this->entity->setTime($time);
-        $this->entity->setUserid('user123');
-        $this->entity->setOperType('login');
-        $this->entity->setDetailInfo('User logged in from mobile');
-        $this->entity->setIp('192.168.1.100');
-        $this->entity->setCreateTime($createTime);
-        $this->entity->setUpdateTime($updateTime);
+        $entity->setTime($time);
+        $entity->setUserid('user123');
+        $entity->setOperType('login');
+        $entity->setDetailInfo('User logged in from mobile');
+        $entity->setIp('192.168.1.100');
+        $entity->setCreateTime($createTime);
+        $entity->setUpdateTime($updateTime);
 
-        $this->assertSame($time, $this->entity->getTime());
-        $this->assertSame('user123', $this->entity->getUserid());
-        $this->assertSame('login', $this->entity->getOperType());
-        $this->assertSame('User logged in from mobile', $this->entity->getDetailInfo());
-        $this->assertSame('192.168.1.100', $this->entity->getIp());
-        $this->assertSame($createTime, $this->entity->getCreateTime());
-        $this->assertSame($updateTime, $this->entity->getUpdateTime());
+        $this->assertSame($time, $entity->getTime());
+        $this->assertSame('user123', $entity->getUserid());
+        $this->assertSame('login', $entity->getOperType());
+        $this->assertSame('User logged in from mobile', $entity->getDetailInfo());
+        $this->assertSame('192.168.1.100', $entity->getIp());
+        $this->assertSame($createTime, $entity->getCreateTime());
+        $this->assertSame($updateTime, $entity->getUpdateTime());
     }
 
-    public function test_ip_with_ipv6_address(): void
+    public function testIpWithIpv6Address(): void
     {
+        $entity = new MemberOperateRecord();
         $ipv6 = '2001:db8::1';
-        $this->entity->setIp($ipv6);
+        $entity->setIp($ipv6);
 
-        $this->assertSame($ipv6, $this->entity->getIp());
+        $this->assertSame($ipv6, $entity->getIp());
     }
 
-    public function test_operType_with_different_operations(): void
+    public function testOperTypeWithDifferentOperations(): void
     {
+        $entity = new MemberOperateRecord();
         $operations = ['login', 'logout', 'download', 'upload', 'delete'];
 
         foreach ($operations as $operation) {
-            $this->entity->setOperType($operation);
-            $this->assertSame($operation, $this->entity->getOperType());
+            $entity->setOperType($operation);
+            $this->assertSame($operation, $entity->getOperType());
         }
     }
 }

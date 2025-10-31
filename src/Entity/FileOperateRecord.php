@@ -1,9 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace WechatWorkSecurityBundle\Entity;
 
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 use Tourze\DoctrineTimestampBundle\Traits\TimestampableAware;
 use WechatWorkSecurityBundle\Enum\FileOperateDeviceCodeEnum;
 use WechatWorkSecurityBundle\Repository\FileOperateRecordRepository;
@@ -11,58 +14,68 @@ use WechatWorkSecurityBundle\Repository\FileOperateRecordRepository;
 /**
  * @see https://developer.work.weixin.qq.com/document/path/98079
  */
-
 #[ORM\Entity(repositoryClass: FileOperateRecordRepository::class)]
 #[ORM\Table(name: 'wechat_work_file_operate_record', options: ['comment' => '文件防泄漏'])]
 class FileOperateRecord implements \Stringable
 {
     use TimestampableAware;
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: Types::INTEGER, options: ['comment' => 'ID'])]
-    private ?int $id = 0;
+    private int $id = 0;
 
+    #[Assert\DateTime]
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true, options: ['comment' => '操作时间'])]
     private ?\DateTimeInterface $time = null;
 
+    #[Assert\Length(max: 60)]
     #[ORM\Column(length: 60, nullable: true, options: ['comment' => '企业账号id'])]
     private ?string $userid = null;
 
+    #[Assert\Length(max: 60)]
     #[ORM\Column(length: 60, nullable: true, options: ['comment' => '企业外部人员信息'])]
     private ?string $externalUser = null;
 
+    #[Assert\Length(max: 80)]
     #[ORM\Column(length: 80, nullable: true, options: ['comment' => 'operation'])]
     private ?string $operation = null;
 
+    #[Assert\Length(max: 80)]
     #[ORM\Column(length: 80, nullable: true, options: ['comment' => '文件操作说明'])]
     private ?string $fileInfo = null;
 
+    #[Assert\Length(max: 80)]
     #[ORM\Column(length: 80, nullable: true, options: ['comment' => '文件md5'])]
     private ?string $fileMd5 = null;
 
+    #[Assert\Length(max: 80)]
     #[ORM\Column(length: 80, nullable: true, options: ['comment' => '文件大小'])]
     private ?string $fileSize = null;
 
+    #[Assert\Length(max: 80)]
     #[ORM\Column(length: 80, nullable: true, options: ['comment' => '当记录操作类型为『通过下载申请』或者『拒绝下载申请』时，该字段表示申请人的名字'])]
     private ?string $applicantName = null;
 
+    #[Assert\Choice(callback: [FileOperateDeviceCodeEnum::class, 'cases'])]
     #[ORM\Column(length: 20, nullable: false, enumType: FileOperateDeviceCodeEnum::class, options: ['comment' => '设备类型'])]
-    private ?FileOperateDeviceCodeEnum $deviceType = FileOperateDeviceCodeEnum::FIRM;
+    private FileOperateDeviceCodeEnum $deviceType = FileOperateDeviceCodeEnum::FIRM;
 
+    #[Assert\Length(max: 80)]
     #[ORM\Column(length: 80, nullable: true, options: ['comment' => '设备编码'])]
     private ?string $deviceCode = null;
 
-    public function getId(): ?int
+    public function getId(): int
     {
         return $this->id;
     }
 
-    public function getDeviceType(): ?FileOperateDeviceCodeEnum
+    public function getDeviceType(): FileOperateDeviceCodeEnum
     {
         return $this->deviceType;
     }
 
-    public function setDeviceType(?FileOperateDeviceCodeEnum $deviceType): void
+    public function setDeviceType(FileOperateDeviceCodeEnum $deviceType): void
     {
         $this->deviceType = $deviceType;
     }
@@ -156,6 +169,7 @@ class FileOperateRecord implements \Stringable
     {
         $this->time = $time;
     }
+
     public function __toString(): string
     {
         return (string) $this->getId();
