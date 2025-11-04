@@ -22,7 +22,7 @@ use WechatWorkSecurityBundle\Entity\FileOperateRecord;
 #[RunTestsInSeparateProcesses]
 final class FileOperateRecordCrudControllerTest extends AbstractEasyAdminControllerTestCase
 {
-    protected function onSetUp(): void
+    protected function afterEasyAdminSetUp(): void
     {
         // 确保每个测试开始时内核状态是干净的
         if (self::$booted) {
