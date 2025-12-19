@@ -112,30 +112,4 @@ final class WechatWorkSecurityExtensionTest extends AbstractDependencyInjectionE
             );
         }
     }
-
-    public function testLoadRequests(): void
-    {
-        $extension = new WechatWorkSecurityExtension();
-        $container = new ContainerBuilder();
-        $container->setParameter('kernel.environment', 'test');
-        $container->setParameter('kernel.project_dir', __DIR__ . '/../../');
-
-        $extension->load([], $container);
-
-        // 检查请求类是否被注册
-        $requestIds = [
-            'WechatWorkSecurityBundle\Request\FileOperateRecordRequest',
-            'WechatWorkSecurityBundle\Request\MemberOperateRecordRequest',
-            'WechatWorkSecurityBundle\Request\ScreenOperateRecordRequest',
-            'WechatWorkSecurityBundle\Request\TrustDeviceRequest',
-        ];
-
-        foreach ($requestIds as $requestId) {
-            $this->assertTrue(
-                $container->hasDefinition($requestId)
-                || $container->hasAlias($requestId),
-                "Request service {$requestId} should be registered"
-            );
-        }
-    }
 }

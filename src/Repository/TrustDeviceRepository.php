@@ -13,7 +13,7 @@ use WechatWorkSecurityBundle\Entity\TrustDevice;
  * @extends ServiceEntityRepository<TrustDevice>
  */
 #[AsRepository(entityClass: TrustDevice::class)]
-class TrustDeviceRepository extends ServiceEntityRepository
+final class TrustDeviceRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {

@@ -22,7 +22,7 @@ use WechatWorkSecurityBundle\Request\MemberOperateRecordRequest;
  */
 // #[AsCronTask(expression: '* * * * *')]
 #[AsCommand(name: self::NAME, description: '获取成员操作记录')]
-class MemberOperateRecordCommand extends Command
+final class MemberOperateRecordCommand extends Command
 {
     public const NAME = 'wechat-work:member-operate-record';
 

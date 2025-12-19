@@ -13,7 +13,7 @@ use WechatWorkSecurityBundle\Entity\ScreenOperateRecord;
  * @extends ServiceEntityRepository<ScreenOperateRecord>
  */
 #[AsRepository(entityClass: ScreenOperateRecord::class)]
-class ScreenOperateRecordRepository extends ServiceEntityRepository
+final class ScreenOperateRecordRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {

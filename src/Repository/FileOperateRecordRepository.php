@@ -13,7 +13,7 @@ use WechatWorkSecurityBundle\Entity\FileOperateRecord;
  * @extends ServiceEntityRepository<FileOperateRecord>
  */
 #[AsRepository(entityClass: FileOperateRecord::class)]
-class FileOperateRecordRepository extends ServiceEntityRepository
+final class FileOperateRecordRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {

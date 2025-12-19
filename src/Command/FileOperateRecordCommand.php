@@ -23,7 +23,7 @@ use WechatWorkSecurityBundle\Request\FileOperateRecordRequest;
  */
 // #[AsCronTask(expression: '* * * * *')]
 #[AsCommand(name: self::NAME, description: '文件防泄漏')]
-class FileOperateRecordCommand extends Command
+final class FileOperateRecordCommand extends Command
 {
     public const NAME = 'wechat-work:file-operate-record';
 

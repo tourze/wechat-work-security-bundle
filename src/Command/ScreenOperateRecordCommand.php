@@ -23,7 +23,7 @@ use WechatWorkSecurityBundle\Request\ScreenOperateRecordRequest;
  */
 // #[AsCronTask(expression: '* * * * *')]
 #[AsCommand(name: self::NAME, description: '截屏/录屏管理')]
-class ScreenOperateRecordCommand extends Command
+final class ScreenOperateRecordCommand extends Command
 {
     public const NAME = 'wechat-work:screen-operate-record';
 

@@ -22,7 +22,7 @@ use WechatWorkSecurityBundle\Request\TrustDeviceRequest;
  */
 // #[AsCronTask(expression: '* * * * *')]
 #[AsCommand(name: self::NAME, description: '获取设备信息')]
-class TrustDeviceCommand extends Command
+final class TrustDeviceCommand extends Command
 {
     public const NAME = 'wechat-work:trust-device';
 
